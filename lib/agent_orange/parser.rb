@@ -9,4 +9,19 @@ class AgentOrange::Parser
     yield self if block_given?
   end
   
+  def is_computer?
+    
+  end
+  
+  def is_mobile?
+    
+  end
+  
+  def is_bot?
+  end
+  
+  def to_s
+    "#{device.to_s}"
+  end
+  
 end
