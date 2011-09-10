@@ -12,3 +12,86 @@ of agents as possible.
 
 STATUS: Design stage. This library is not yet usable. Please contact me if you'd like
 to participate.
+
+
+# Create new parser and return device
+
+>> p = AgentOrange::Parser.new("test")
+
+# Looking at the device
+
+>> device = p.device
+=> "iPhone 3G"
+>> device.type
+=> "mobile"
+>> device.manufacturer
+=> "Apple"
+>> device.name
+=> "iPhone"
+>> device.version
+=> "3G"
+>> p.is_mobile?
+=> true
+>> device.is_mobile?
+=> true
+
+# Looking at the web engine
+
+>> engine = p.device.engine
+=> "WebKit 5.3"
+>> engine.type
+=> "webkit"
+>> engine.name
+=> "WebKit"
+>> engine.version
+=> "5.3.1.2321"
+>> engine.version.lite
+=> "5.3"
+
+# Looking at the browser
+
+>> browser = p.device.engine.browser
+=> "Internet Explorer 10"
+>> browser.type
+=> "ie"
+>> browser.name
+=> "Internet Explorer"
+>> browser.version
+=> "10.0.112"
+>> browser.version.minor
+=> "10.0"
+>> browser.version.major
+=> "10"
+
+# Browser Version
+>> AgentOrange::Parser.new("test").device.engine.browser.version
+=> "10.0.112"
+
+
+# General Class Definition
+
+AgentOrange::Parser
+  device
+  is_computer?   # proxy
+  is_mobile?     # proxy
+  is_bot?        # proxy
+  to_s
+  
+AgentOrange::Device
+  type
+  name
+  version
+  to_s
+  
+AgentOrange::Engine
+  type
+  name
+  version
+  to_s
+  
+AgentOrange::Version
+  major
+  minor
+  patch_level
+  build_number
+  to_s
