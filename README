@@ -1,0 +1,14 @@
+agent_orange - User Agent detection for Ruby
+
+There are quite a few User Agent parsing libraries already, but none of them make adequate
+detection of mobile browsers and clients. With such a significant number of requests
+coming from mobile users a library with the ability to detect what type of device a user
+is coming from is necessary.
+
+This library for Ruby will allow you to detect whether a user is on a computer, a mobile
+device, or is a bot (such as Google). It was composed by using techniques gathered from
+several other libraries/gems in an effort to be consistent and cover as many types
+of agents as possible.
+
+STATUS: Design stage. This library is not yet usable. Please contact me if you'd like
+to participate.
