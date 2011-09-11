@@ -63,20 +63,20 @@ module AgentOrange
       self.engine = AgentOrange::Engine.new(user_agent)
     end
     
-    def is_computer?(type=nil)
-      self.type == "computer"
+    def is_computer?(name=nil)
+      (self.type == "computer")
     end
     
-    def is_mobile?(type=nil)
+    def is_mobile?(name=nil)
       self.type == "mobile"
     end
     
-    def is_bot?(type=nil)
+    def is_bot?(name=nil)
       self.type == "bot"
     end
     
     def to_s
-      [self.name, self.version].join(' ')
+      [self.name, self.version].compact.join(' ')
     end
   end
 end

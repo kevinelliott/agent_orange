@@ -62,7 +62,7 @@ module AgentOrange
     end
     
     def to_s
-      [self.name, self.version].join(' ')
+      [self.name, self.version].compact.join(' ')
     end
   end
 end
