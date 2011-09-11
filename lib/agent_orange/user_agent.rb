@@ -59,6 +59,10 @@ module AgentOrange
       AgentOrange.debug
       AgentOrange.debug "SUMMARY"
       AgentOrange.debug "  Is computer? #{self.is_computer?}"
+      if self.is_computer?
+        AgentOrange.debug "    Is a Mac? #{self.is_computer? :mac}"
+        AgentOrange.debug "    Is a PC? #{self.is_computer? :pc}"
+      end
       AgentOrange.debug "  Is mobile? #{self.is_mobile?}"
       if self.is_mobile?
         AgentOrange.debug "    Is an iPhone? #{self.is_mobile? :iphone}"

@@ -1,4 +1,5 @@
 require 'agent_orange/browser'
+require 'agent_orange/version'
 
 module AgentOrange
   class Engine
@@ -46,7 +47,7 @@ module AgentOrange
           self.name = name
           
           # Determine device version
-          self.version = version
+          self.version = AgentOrange::Version.new(version)
           
         end
 

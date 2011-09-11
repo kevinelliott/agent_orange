@@ -1,6 +1,7 @@
 require 'agent_orange/platform'
 require 'agent_orange/operating_system'
 require 'agent_orange/engine'
+require 'agent_orange/version'
 
 module AgentOrange
   class Device
@@ -71,9 +72,9 @@ module AgentOrange
       if name
         case name
         when String
-          return self.name.downcase.include?(name.downcase)
+          return self.platform.name.downcase.include?(name.downcase)
         when Symbol
-          return self.name.downcase.include?(name.to_s.downcase)
+          return self.platform.name.downcase.include?(name.to_s.downcase)
         end
       else
         (self.type == "computer")
@@ -84,9 +85,9 @@ module AgentOrange
       if name
         case name
         when String
-          return self.name.downcase.include?(name.downcase)
+          return self.platform.name.downcase.include?(name.downcase)
         when Symbol
-          return self.name.downcase.include?(name.to_s.downcase)
+          return self.platform.name.downcase.include?(name.to_s.downcase)
         end
       else
         self.type == "mobile"

@@ -1,3 +1,5 @@
+require 'agent_orange/version'
+
 module AgentOrange
   class Browser
     attr_accessor :type, :name, :version
@@ -47,7 +49,7 @@ module AgentOrange
           self.name = name
           
           # Determine device version
-          self.version = version
+          self.version = AgentOrange::Version.new(version)
           
         end
 
