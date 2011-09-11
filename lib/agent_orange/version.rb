@@ -11,22 +11,12 @@ module AgentOrange
       self.build_number = nil
 
       pieces = version_string.split('.')
-      case pieces.count
-      when 1
-        self.major = pieces[0]
-      when 2
-        self.major = pieces[0]
-        self.minor = pieces[1]
-      when 3
-        self.major = pieces[0]
-        self.minor = pieces[1]
-        self.patch_level = pieces[2]
-      when 4
-        self.major = pieces[0]
-        self.minor = pieces[1]
-        self.patch_level = pieces[2]
-        self.build_number = pieces[3]
-      end
+      pieces_count = pieces.count
+      
+      self.major = pieces[0] if pieces_count >= 1
+      self.minor = pieces[1] if pieces_count >= 2
+      self.patch_level = pieces[2] if pieces_count >= 3
+      self.build_number = pieces[3] if pieces_count >= 4
     end
     
     def to_s
