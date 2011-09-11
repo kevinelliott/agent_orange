@@ -16,7 +16,7 @@ of agents as possible.
 
 == Status
 
-Improvement stage. This library is not yet testable. Please contact me if you'd like
+Improvement stage. This library is not yet testable but does function. Please contact me if you'd like
 to participate.
 
 == Installation
@@ -27,11 +27,11 @@ If you're going to use it with Rails then add the gem to your Gemfile.
 
 == Example Usage
 
-# Create new user agent parser and return device
+=== Create new user agent parser and return device
 
   >> ua = AgentOrange::UserAgent.new(user_agent_string)
 
-# Looking at the device
+=== Looking at the device
 
   >> device = ua.device
   => "iPhone 3G"
@@ -48,7 +48,7 @@ If you're going to use it with Rails then add the gem to your Gemfile.
   >> device.is_mobile?
   => true
 
-# Looking at the web engine
+=== Looking at the web engine
 
   >> engine = ua.device.engine
   => "WebKit 5.3"
@@ -61,7 +61,7 @@ If you're going to use it with Rails then add the gem to your Gemfile.
   >> engine.version.lite
   => "5.3"
 
-# Looking at the browser
+=== Looking at the browser
 
   >> browser = ua.device.engine.browser
   => "Internet Explorer 10"
@@ -76,7 +76,7 @@ If you're going to use it with Rails then add the gem to your Gemfile.
   >> browser.version.major
   => "10"
 
-# Browser Version
+=== Quickly get to the browser version
 
   >> AgentOrange::UserAgent.new(user_agent_string).device.engine.browser.version
   => "10.0.112"
