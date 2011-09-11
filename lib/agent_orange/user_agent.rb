@@ -2,7 +2,7 @@ require 'agent_orange/device'
 
 module AgentOrange
   DEBUG = true
-  DEBUG_LEVEL = 1
+  DEBUG_LEVEL = 2
   
   class UserAgent
     attr_accessor :user_agent_string
@@ -10,14 +10,14 @@ module AgentOrange
     attr_accessor :device
     
     def initialize(options = {}, &block)
-      @user_agent_string = options[:user_agent].to_s
-      self.parse(@user_agent_string)
+      self.parse(options[:user_agent].to_s)
       
       yield self if block_given?
     end
 
     def parse(user_agent)      
-      self.device = AgentOrange::Device.new(user_agent)
+      self.user_agent_string = user_agent
+      self.device = AgentOrange::Device.new(self.user_agent_string)
 
       AgentOrange.debug "Device = #{self.device}"
       AgentOrange.debug "  Is computer? #{self.is_computer?}"
@@ -51,7 +51,7 @@ module AgentOrange
     end
 
     def to_s
-      [self.device, self.device.engine, self.device.engine.browser].compact.join(", ")
+      [self.device, self.device.platform, self.device.engine, self.device.engine.browser].compact.join(", ")
     end
     
     def to_human_string

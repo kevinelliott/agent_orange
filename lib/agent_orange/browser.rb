@@ -6,6 +6,7 @@ module AgentOrange
     BROWSERS = {
       :ie       => 'MSIE|Internet Explorer|IE',
       :firefox  => 'Firefox',
+      :opera    => 'Opera',
       :safari   => 'Safari'
     }
     
@@ -36,6 +37,8 @@ module AgentOrange
             self.type = "firefox"
           elsif name =~ /(#{BROWSERS[:safari]})/i
             self.type = "safari"
+          elsif name =~ /(#{BROWSERS[:opera]})/i
+            self.type = "opera"
           else
             self.type = "other"
           end

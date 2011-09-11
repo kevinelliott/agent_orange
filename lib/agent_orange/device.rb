@@ -1,3 +1,4 @@
+require 'agent_orange/platform'
 require 'agent_orange/engine'
 
 module AgentOrange
@@ -28,9 +29,9 @@ module AgentOrange
         if comment =~ /(#{DEVICES.collect{|cat,regex| regex}.join(')|(')})/i
           # Found the device
           AgentOrange.debug "  Got a device in group #{i+1}!", 2
-          AgentOrange.debug "  Raw Name   : #{name}", 2
-          AgentOrange.debug "  Raw Version: #{version}", 2
-          AgentOrange.debug "  Raw Comment: #{comment}", 2
+          AgentOrange.debug "  Group Raw Name   : #{name}", 2
+          AgentOrange.debug "  Group Raw Version: #{version}", 2
+          AgentOrange.debug "  Group Raw Comment: #{comment}", 2
           AgentOrange.debug "", 2
                     
           # Determine device type
@@ -45,7 +46,7 @@ module AgentOrange
           end
           
           # Determine device name
-          self.name = comment.split(';')[0]
+          self.name = self.type.capitalize
           
           # Determine device version
           self.version = nil
@@ -60,6 +61,7 @@ module AgentOrange
       AgentOrange.debug "  Version: #{self.version}", 2
       AgentOrange.debug "", 2
       
+      self.platform = AgentOrange::Platform.new(user_agent)
       self.engine = AgentOrange::Engine.new(user_agent)
     end
     

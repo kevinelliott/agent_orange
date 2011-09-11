@@ -36,13 +36,11 @@ If you're going to use it with Rails then add the gem to your Gemfile.
 === Looking at the device
 
   >> device = ua.device
-  => "iPhone 3G"
+  => "Mobile"
   >> device.type
   => "mobile"
-  >> device.manufacturer
-  => "Apple"
   >> device.name
-  => "iPhone"
+  => "Mobile"
   >> device.version
   => nil
 
@@ -60,6 +58,28 @@ If you're going to use it with Rails then add the gem to your Gemfile.
   >> ua.is_mobile?
   => true
 
+=== Looking at the platform
+
+  >> platform = ua.device.platform
+  => "iPhone"
+  >> platform.type
+  => "iphone"
+  >> platform.name
+  => "iPhone"
+  >> platform.version
+  => "3GS"
+  
+=== Looking at the operating system
+
+  >> os = ua.device.os
+  => "iPhone OS 4.3"
+  >> os.type
+  => "iphone_os"
+  >> os.name
+  => "iPhone OS"
+  >> os.version
+  => "4.3"
+  
 === Looking at the web engine
 
   >> engine = ua.device.engine
