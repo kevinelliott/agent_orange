@@ -1,0 +1,147 @@
+= agent_orange
+
+User Agent detection for Ruby. ActionController integration coming soon.
+
+== About
+
+There are quite a few User Agent parsing libraries already, but none of them make adequate
+detection of mobile browsers and clients. With such a significant number of requests
+coming from mobile users a library with the ability to detect what type of device a user
+is coming from is necessary.
+
+This library for Ruby will allow you to detect whether a user is on a computer, a mobile
+device, or is a bot (such as Google). It was composed by using techniques gathered from
+several other libraries/gems in an effort to be consistent and cover as many types
+of agents as possible.
+
+== Status
+
+Improvement stage. This library is not yet testable. Please contact me if you'd like
+to participate.
+
+== Installation
+
+  gem install agent_orange
+
+If you're going to use it with Rails then add the gem to your Gemfile.
+
+== Example Usage
+
+# Create new user agent parser and return device
+
+  >> ua = AgentOrange::UserAgent.new(user_agent_string)
+
+# Looking at the device
+
+  >> device = ua.device
+  => "iPhone 3G"
+  >> device.type
+  => "mobile"
+  >> device.manufacturer
+  => "Apple"
+  >> device.name
+  => "iPhone"
+  >> device.version
+  => "3G"
+  >> ua.is_mobile?
+  => true
+  >> device.is_mobile?
+  => true
+
+# Looking at the web engine
+
+  >> engine = ua.device.engine
+  => "WebKit 5.3"
+  >> engine.type
+  => "webkit"
+  >> engine.name
+  => "WebKit"
+  >> engine.version
+  => "5.3.1.2321"
+  >> engine.version.lite
+  => "5.3"
+
+# Looking at the browser
+
+  >> browser = ua.device.engine.browser
+  => "Internet Explorer 10"
+  >> browser.type
+  => "ie"
+  >> browser.name
+  => "Internet Explorer"
+  >> browser.version
+  => "10.0.112"
+  >> browser.version.minor
+  => "10.0"
+  >> browser.version.major
+  => "10"
+
+# Browser Version
+
+  >> AgentOrange::UserAgent.new(user_agent_string).device.engine.browser.version
+  => "10.0.112"
+
+
+== General Class Definition
+
+This is not up to date or a reflection of the actual class structure. This will be updated eventually.
+
+AgentOrange::UserAgent
+  device
+  parse
+  is_computer?   # proxy
+  is_mobile?     # proxy
+  is_bot?        # proxy
+  to_s
+  
+AgentOrange::Device
+  parse
+  type
+  name
+  version
+  is_computer?(name=nil) # 
+  is_mobile?(name=nil)   # accepts a :symbol or "String"
+  is_bot?(name=nil)      #
+  to_s
+  
+AgentOrange::Engine
+  parse
+  type
+  name
+  version
+  to_s
+  
+AgentOrange::Version
+  parse
+  major
+  minor
+  patch_level
+  build_number
+  to_s
+  
+== Maintainer
+
+* Kevin Elliott - http://kevinelliott.net
+
+== License
+
+(The MIT License)
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
