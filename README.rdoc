@@ -16,7 +16,7 @@ of agents as possible.
 
 == Status
 
-**Improvement stage.**
+=== Improvement stage.
 
 This library is not yet testable but does function. Please contact me if you'd like
 to participate.
