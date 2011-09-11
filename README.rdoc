@@ -27,7 +27,7 @@ If you're going to use it with Rails then add the gem to your Gemfile.
 
 == Example Usage
 
-=== Create new user agent parser and return device
+=== Create new user agent parser
 
   >> ua = AgentOrange::UserAgent.new(user_agent_string)
 
@@ -42,10 +42,20 @@ If you're going to use it with Rails then add the gem to your Gemfile.
   >> device.name
   => "iPhone"
   >> device.version
-  => "3G"
-  >> ua.is_mobile?
-  => true
+  => nil
+
+=== Check to see if the device is mobile, a desktop/laptop/server computer, or a bot
+
   >> device.is_mobile?
+  => true
+  >> device.is_computer?
+  => false
+  >> device.is_bot?
+  => false
+
+=== Use the proxies to check if the user is on a mobile device
+
+  >> ua.is_mobile?
   => true
 
 === Looking at the web engine
@@ -58,8 +68,6 @@ If you're going to use it with Rails then add the gem to your Gemfile.
   => "WebKit"
   >> engine.version
   => "5.3.1.2321"
-  >> engine.version.lite
-  => "5.3"
 
 === Looking at the browser
 
@@ -71,16 +79,11 @@ If you're going to use it with Rails then add the gem to your Gemfile.
   => "Internet Explorer"
   >> browser.version
   => "10.0.112"
-  >> browser.version.minor
-  => "10.0"
-  >> browser.version.major
-  => "10"
 
 === Quickly get to the browser version
 
   >> AgentOrange::UserAgent.new(user_agent_string).device.engine.browser.version
   => "10.0.112"
-
 
 == General Class Definition
 
@@ -122,6 +125,7 @@ AgentOrange::Version
 == Maintainer
 
 * Kevin Elliott - http://kevinelliott.net
+* WeLike - http://www.welikeinc.com - http://github.com/welike
 
 == License
 
