@@ -1,14 +1,12 @@
-require 'agent_orange/browser'
-
 module AgentOrange
-  class Engine
+  class Browser
     attr_accessor :type, :name, :version
-    attr_accessor :browser
+    attr_accessor :security
     
-    ENGINES = {
-      :gecko  => 'Gecko',
-      :presto => 'Presto',
-      :webkit => 'AppleWebKit'
+    BROWSERS = {
+      :ie       => 'MSIE|Internet Explorer|IE',
+      :firefox  => 'Firefox',
+      :safari   => 'Safari'
     }
     
     def initialize(user_agent)
@@ -29,22 +27,22 @@ module AgentOrange
         puts "  Comment: #{comment}"
         puts
         
-        if name =~ /(#{ENGINES.collect{|cat,regex| regex}.join(')|(')})/i
-          # Found the engine
+        if name =~ /(#{BROWSERS.collect{|cat,regex| regex}.join(')|(')})/i
+          # Found the browser
           puts "  Got an engine!"
           
-          # Determine engine type
-          if name =~ /(#{ENGINES[:gecko]})/i
-            self.type = "gecko"
-          end
-          if name =~ /(#{ENGINES[:presto]})/i
-            self.type = "presto"
-          end
-          if name =~ /(#{ENGINES[:webkit]})/i
-            self.type = "webkit"
+          # Determine browser type
+          if name =~ /(#{BROWSERS[:ie]})/i
+            self.type = "ie"
+          elsif name =~ /(#{BROWSERS[:firefox]})/i
+            self.type = "firefox"
+          elsif name =~ /(#{BROWSERS[:safari]})/i
+            self.type = "safari"
+          else
+            self.type = "other"
           end
           
-          # Determine engine name
+          # Determine browser name
           self.name = name
           
           # Determine device version
@@ -54,7 +52,7 @@ module AgentOrange
 
       end
       
-      puts "ENGINE ANALYSIS"
+      puts "BROWSER ANALYSIS"
       puts "  Type: #{self.type}"
       puts "  Name: #{self.name}"
       puts "  Version: #{self.version}"

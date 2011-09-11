@@ -1,9 +1,9 @@
 module AgentOrange
-  class Browser
+  class Platform
     attr_accessor :name, :version
-  
+    
     def to_s
-      "#{self.name} #{self.version}"
+      "#{name} #{version}
     end
   end
 end
