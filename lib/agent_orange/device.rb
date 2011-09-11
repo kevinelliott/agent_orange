@@ -65,13 +65,26 @@ module AgentOrange
     
     def is_computer?(name=nil)
       if name
-        
+        if name.is_a? Symbol
+          case name
+          when :windows
+          end
+        end
       end
       (self.type == "computer")
     end
     
     def is_mobile?(name=nil)
-      self.type == "mobile"
+      if name
+        case name
+        when String
+          return self.name.downcase.include?(name.downcase)
+        when Symbol
+          return self.name.downcase.include?(name.to_s.downcase)
+        end
+      else
+        self.type == "mobile"
+      end
     end
     
     def is_bot?(name=nil)

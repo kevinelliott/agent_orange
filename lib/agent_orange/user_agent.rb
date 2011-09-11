@@ -22,13 +22,19 @@ module AgentOrange
       AgentOrange.debug "Device = #{self.device}"
       AgentOrange.debug "  Is computer? #{self.is_computer?}"
       AgentOrange.debug "  Is mobile? #{self.is_mobile?}"
+      if self.is_mobile?
+        AgentOrange.debug "    Is an iPhone? #{self.is_mobile? :iphone}"
+        AgentOrange.debug "    Is an iPad? #{self.is_mobile? :ipad}"
+        AgentOrange.debug "    Is an iPod? #{self.is_mobile? :ipod}"
+        AgentOrange.debug "    Is an Android? #{self.is_mobile? :android}"
+      end
       AgentOrange.debug "  Is bot? #{self.is_bot?}"
       AgentOrange.debug
       
       AgentOrange.debug "Engine = #{self.device.engine}"
       AgentOrange.debug "Browser = #{self.device.engine.browser}"
-      AgentOrange.debug
-      
+
+      AgentOrange.debug "", 2
       AgentOrange.debug "user_agent.to_s = #{self}", 2
     end
     
