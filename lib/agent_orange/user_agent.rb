@@ -1,16 +1,13 @@
 require 'agent_orange/device'
 
 module AgentOrange
+  DEBUG = true
+  DEBUG_LEVEL = 1
+  
   class UserAgent
     attr_accessor :user_agent_string
     attr_accessor :user_language
     attr_accessor :device
-    
-    ENGINES = {
-    }
-    
-    BROWSERS = {
-    }
     
     def initialize(options = {}, &block)
       @user_agent_string = options[:user_agent].to_s
@@ -22,20 +19,17 @@ module AgentOrange
     def parse(user_agent)      
       self.device = AgentOrange::Device.new(user_agent)
 
-      puts
-      puts "Device = #{self.device}"
-      puts "Is computer? #{self.is_computer?}"
-      puts "Is mobile? #{self.is_mobile?}"
-      puts "Is bot? #{self.is_bot?}"
-      puts
+      AgentOrange.debug "Device = #{self.device}"
+      AgentOrange.debug "  Is computer? #{self.is_computer?}"
+      AgentOrange.debug "  Is mobile? #{self.is_mobile?}"
+      AgentOrange.debug "  Is bot? #{self.is_bot?}"
+      AgentOrange.debug
       
-      puts "Engine = #{self.device.engine}"
-      puts
+      AgentOrange.debug "Engine = #{self.device.engine}"
+      AgentOrange.debug "Browser = #{self.device.engine.browser}"
+      AgentOrange.debug
       
-      puts "Browser = #{self.device.engine.browser}"
-      puts
-      
-      puts "user_agent.to_s = #{self}"
+      AgentOrange.debug "user_agent.to_s = #{self}", 2
     end
     
     def is_computer?(type=nil)
@@ -63,4 +57,9 @@ module AgentOrange
     end
 
   end
+  
+  def self.debug(str="", level=1)
+    puts str if DEBUG && (DEBUG_LEVEL >= level)
+  end
+  
 end

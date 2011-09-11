@@ -3,7 +3,7 @@ module AgentOrange
     attr_accessor :name, :version
     
     def to_s
-      "#{name} #{version}
+      "#{name} #{version}"
     end
   end
 end

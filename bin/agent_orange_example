@@ -2,24 +2,18 @@
 
 require "agent_orange/user_agent"
 
-puts
-puts '='*80
-puts
+def process_user_agent(ua_str)
+  puts
+  puts '='*120
+  puts "User-Agent:"
+  puts "  #{ua_str}"
+  puts
+  ua = AgentOrange::UserAgent.new(:user_agent => ua_str)
+  puts '='*120
+end
 
 ua_str = "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_5; sv-se) AppleWebKit/525.26.2 (KHTML, like Gecko) Version/3.2 Safari/525.26.12"
-puts "User-Agent:"
-puts
-puts "#{ua_str}"
-puts
-ua = AgentOrange::UserAgent.new(:user_agent => ua_str)
-
-puts
-puts '='*80
-puts
+process_user_agent(ua_str)
 
 ua_str = "Mozilla/5.0 (iPhone; U; Linux i686; pt-br) AppleWebKit/532+ (KHTML, like Gecko) Version/3.0 Mobile/1A538b Safari/419.3 Midori/0.2.0"
-puts "User-Agent:"
-puts
-puts "#{ua_str}"
-puts
-ua = AgentOrange::UserAgent.new(:user_agent => ua_str)
+process_user_agent(ua_str)
