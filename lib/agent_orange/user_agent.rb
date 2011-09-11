@@ -19,21 +19,14 @@ module AgentOrange
       self.user_agent_string = user_agent
       self.device = AgentOrange::Device.new(self.user_agent_string)
 
-      AgentOrange.debug "Device = #{self.device}"
-      AgentOrange.debug "  Is computer? #{self.is_computer?}"
-      AgentOrange.debug "  Is mobile? #{self.is_mobile?}"
-      if self.is_mobile?
-        AgentOrange.debug "    Is an iPhone? #{self.is_mobile? :iphone}"
-        AgentOrange.debug "    Is an iPad? #{self.is_mobile? :ipad}"
-        AgentOrange.debug "    Is an iPod? #{self.is_mobile? :ipod}"
-        AgentOrange.debug "    Is an Android? #{self.is_mobile? :android}"
-      end
-      AgentOrange.debug "  Is bot? #{self.is_bot?}"
-      AgentOrange.debug
-      
-      AgentOrange.debug "Engine = #{self.device.engine}"
-      AgentOrange.debug "Browser = #{self.device.engine.browser}"
+      AgentOrange.debug "Device   = #{self.device}"
+      AgentOrange.debug "Platform = #{self.device.platform}"
+      AgentOrange.debug "OS       = #{self.device.operating_system}"
+      AgentOrange.debug "Engine   = #{self.device.engine}"
+      AgentOrange.debug "Browser  = #{self.device.engine.browser}"
 
+      self.summary
+      
       AgentOrange.debug "", 2
       AgentOrange.debug "user_agent.to_s = #{self}", 2
     end
@@ -51,7 +44,7 @@ module AgentOrange
     end
 
     def to_s
-      [self.device, self.device.platform, self.device.engine, self.device.engine.browser].compact.join(", ")
+      [self.device, self.device.platform, self.device.operating_system, self.device.engine, self.device.engine.browser].compact.join(", ")
     end
     
     def to_human_string
@@ -62,6 +55,20 @@ module AgentOrange
       end
     end
 
+    def summary
+      AgentOrange.debug
+      AgentOrange.debug "SUMMARY"
+      AgentOrange.debug "  Is computer? #{self.is_computer?}"
+      AgentOrange.debug "  Is mobile? #{self.is_mobile?}"
+      if self.is_mobile?
+        AgentOrange.debug "    Is an iPhone? #{self.is_mobile? :iphone}"
+        AgentOrange.debug "    Is an iPad? #{self.is_mobile? :ipad}"
+        AgentOrange.debug "    Is an iPod? #{self.is_mobile? :ipod}"
+        AgentOrange.debug "    Is an Android? #{self.is_mobile? :android}"
+      end
+      AgentOrange.debug "  Is bot? #{self.is_bot?}"
+      AgentOrange.debug
+    end
   end
   
   def self.debug(str="", level=1)

@@ -6,7 +6,14 @@ module AgentOrange
       :android => 'android',
       :ios => 'iphone|ipad|ipod',
       :mac => 'macintosh',
-      :pc => 'freebsd|linux|netbsd|windows'
+      :pc => 'freebsd|linux|netbsd|windows|x11'
+    }
+    
+    PLATFORM_NAMES = {
+      :android => 'Android',
+      :ios => 'iOS',
+      :mac => 'Macintosh',
+      :pc => 'PC'
     }
     
     def initialize(user_agent)
@@ -44,7 +51,7 @@ module AgentOrange
           end
           
           # Determine platform name
-          self.name = comment.split(';')[0]
+          self.name = PLATFORM_NAMES[self.type.to_sym]
           
           # Determine platform version
           self.version = nil

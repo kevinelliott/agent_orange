@@ -1,4 +1,5 @@
 require 'agent_orange/platform'
+require 'agent_orange/operating_system'
 require 'agent_orange/engine'
 
 module AgentOrange
@@ -62,6 +63,7 @@ module AgentOrange
       AgentOrange.debug "", 2
       
       self.platform = AgentOrange::Platform.new(user_agent)
+      self.operating_system = AgentOrange::OperatingSystem.new(user_agent)
       self.engine = AgentOrange::Engine.new(user_agent)
     end
     
