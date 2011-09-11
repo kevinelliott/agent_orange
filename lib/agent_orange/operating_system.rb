@@ -8,7 +8,7 @@ module AgentOrange
       :ios => 'iphone|ipad|ipod',
       :linux => 'linux',
       :netbsd => 'netbsd',
-      :osx => 'osx',
+      :osx => 'osx|os x',
       :windows => 'windows'
     }
 
