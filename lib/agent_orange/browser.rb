@@ -14,22 +14,20 @@ module AgentOrange
     end
     
     def parse(user_agent)
+      puts "BROWSER PARSING"
       groups = user_agent.scan(/([^\/[:space:]]*)(\/([^[:space:]]*))?([[:space:]]*\[[a-zA-Z][a-zA-Z]\])?[[:space:]]*(\((([^()]|(\([^()]*\)))*)\))?[[:space:]]*/i)
       groups.each_with_index do |pieces,i|
         name = pieces[0]
         version = pieces[2]
         comment = pieces[5]
-        puts
-        puts "GROUP #{i+1}"
-        puts "  PARSED"
-        puts "  Name   : #{name}"
-        puts "  Version: #{version}"
-        puts "  Comment: #{comment}"
-        puts
         
         if name =~ /(#{BROWSERS.collect{|cat,regex| regex}.join(')|(')})/i
-          # Found the browser
-          puts "  Got an engine!"
+          # Found the browser          
+          puts "  Got a browser in group #{i+1}!"
+          puts "  Raw Name   : #{name}"
+          puts "  Raw Version: #{version}"
+          puts "  Raw Comment: #{comment}"
+          puts
           
           # Determine browser type
           if name =~ /(#{BROWSERS[:ie]})/i
@@ -56,8 +54,7 @@ module AgentOrange
       puts "  Type: #{self.type}"
       puts "  Name: #{self.name}"
       puts "  Version: #{self.version}"
-      
-      self.browser = AgentOrange::Browser.new(user_agent)
+      puts
     end
     
     def to_s

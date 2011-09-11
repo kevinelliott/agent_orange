@@ -16,23 +16,21 @@ module AgentOrange
     end
     
     def parse(user_agent)
+      puts "ENGINE PARSING"
       groups = user_agent.scan(/([^\/[:space:]]*)(\/([^[:space:]]*))?([[:space:]]*\[[a-zA-Z][a-zA-Z]\])?[[:space:]]*(\((([^()]|(\([^()]*\)))*)\))?[[:space:]]*/i)
       groups.each_with_index do |pieces,i|
         name = pieces[0]
         version = pieces[2]
         comment = pieces[5]
-        puts
-        puts "GROUP #{i+1}"
-        puts "  PARSED"
-        puts "  Name   : #{name}"
-        puts "  Version: #{version}"
-        puts "  Comment: #{comment}"
-        puts
         
         if name =~ /(#{ENGINES.collect{|cat,regex| regex}.join(')|(')})/i
           # Found the engine
-          puts "  Got an engine!"
-          
+          puts "  Got an engine in group #{i+1}!"
+          puts "  Raw Name   : #{name}"
+          puts "  Raw Version: #{version}"
+          puts "  Raw Comment: #{comment}"
+          puts
+                    
           # Determine engine type
           if name =~ /(#{ENGINES[:gecko]})/i
             self.type = "gecko"
@@ -58,6 +56,7 @@ module AgentOrange
       puts "  Type: #{self.type}"
       puts "  Name: #{self.name}"
       puts "  Version: #{self.version}"
+      puts
       
       self.browser = AgentOrange::Browser.new(user_agent)
     end
