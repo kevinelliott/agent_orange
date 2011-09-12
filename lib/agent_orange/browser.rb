@@ -1,7 +1,8 @@
+require 'agent_orange/base'
 require 'agent_orange/version'
 
 module AgentOrange
-  class Browser
+  class Browser < Base
     attr_accessor :type, :name, :version
     attr_accessor :security
     
@@ -12,53 +13,44 @@ module AgentOrange
       :safari   => 'Safari'
     }
     
-    def initialize(user_agent)
-      self.parse(user_agent)
-    end
-    
     def parse(user_agent)
       AgentOrange.debug "BROWSER PARSING", 2
-      groups = user_agent.scan(/([^\/[:space:]]*)(\/([^[:space:]]*))?([[:space:]]*\[[a-zA-Z][a-zA-Z]\])?[[:space:]]*(\((([^()]|(\([^()]*\)))*)\))?[[:space:]]*/i)
-      groups.each_with_index do |pieces,i|
-        name = pieces[0]
-        version = pieces[2]
-        comment = pieces[5]
-        
-        if name =~ /(#{BROWSERS.collect{|cat,regex| regex}.join(')|(')})/i
-          # Found the browser          
-          AgentOrange.debug "  Got a browser in group #{i+1}!", 2
-          AgentOrange.debug "  Raw Name   : #{name}", 2
-          AgentOrange.debug "  Raw Version: #{version}", 2
-          AgentOrange.debug "  Raw Comment: #{comment}", 2
-          AgentOrange.debug "", 2
-          
-          # Determine browser type
-          if name =~ /(#{BROWSERS[:ie]})/i
-            self.type = "ie"
-          elsif name =~ /(#{BROWSERS[:firefox]})/i
-            self.type = "firefox"
-          elsif name =~ /(#{BROWSERS[:safari]})/i
-            self.type = "safari"
-          elsif name =~ /(#{BROWSERS[:opera]})/i
-            self.type = "opera"
-          else
-            self.type = "other"
+      
+      groups = parse_user_agent_string_into_groups(user_agent)
+      groups.each_with_index do |content,i|
+        if content[:name] =~ /(#{BROWSERS.collect{|cat,regex| regex}.join(')|(')})/i
+          # Matched group against name
+          self.populate(content)
+        elsif content[:comment] =~ /(#{BROWSERS.collect{|cat,regex| regex}.join(')|(')})/i
+          # Matched group against comment
+          chosen_content = { :name => nil, :version => nil }
+          additional_groups = parse_comment(content[:comment])
+          additional_groups.each do |additional_content|
+            if additional_content[:name] =~ /(#{BROWSERS.collect{|cat,regex| regex}.join(')|(')})/i
+              chosen_content = additional_content
+            end
           end
-          
-          # Determine browser name
-          self.name = name
-          
-          # Determine device version
-          self.version = AgentOrange::Version.new(version)
-          
+            
+          self.populate(chosen_content)
         end
-
       end
       
+      self.analysis
+    end
+    
+    def populate(content={})
+      self.debug_raw_content(content)
+      AgentOrange.debug "", 2
+      
+      self.type = self.determine_type(BROWSERS, content[:name])
+      self.name = content[:name]
+      self.version = AgentOrange::Version.new(content[:version])
+      self
+    end
+    
+    def analysis
       AgentOrange.debug "BROWSER ANALYSIS", 2
-      AgentOrange.debug "  Type: #{self.type}", 2
-      AgentOrange.debug "  Name: #{self.name}", 2
-      AgentOrange.debug "  Version: #{self.version}", 2
+      self.debug_content(:type => self.type, :name => self.name, :version => self.version)
       AgentOrange.debug "", 2
     end
     
