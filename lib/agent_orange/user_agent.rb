@@ -1,8 +1,8 @@
 require 'agent_orange/device'
 
 module AgentOrange
-  DEBUG = true
-  DEBUG_LEVEL = 2
+  DEBUG = false
+  DEBUG_LEVEL = 1
   
   class UserAgent
     attr_accessor :user_agent_string
@@ -26,9 +26,6 @@ module AgentOrange
       AgentOrange.debug "Browser  = #{self.device.engine.browser}"
 
       self.summary
-      
-      AgentOrange.debug "", 2
-      AgentOrange.debug "user_agent.to_s = #{self}", 2
     end
     
     def is_computer?(type=nil)
@@ -44,7 +41,12 @@ module AgentOrange
     end
 
     def to_s
-      [self.device, self.device.platform, self.device.operating_system, self.device.engine, self.device.engine.browser].compact.join(", ")
+      [self.device, 
+        self.device.platform, 
+        self.device.operating_system, 
+        self.device.engine, 
+        self.device.engine.browser
+        ].compact.join(", ")
     end
     
     def to_human_string
