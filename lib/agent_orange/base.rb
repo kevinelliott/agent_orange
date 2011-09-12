@@ -20,6 +20,10 @@ module AgentOrange
       groups = []
       comment.split('; ').each do |piece|
         content = { :name => nil, :version => nil }
+        
+        # Remove 'like Mac OS X' or similar since it distracts from real results
+        piece = piece.scan(/(.+) like .+$/i)[0][0] if piece =~ /(.+) like (.+)$/i
+        
         if piece =~ /(.+)[ \/]([\w.]+)$/i
           chopped = piece.scan(/(.+)[ \/]([\w.]+)$/i)[0]
           groups << { :name => chopped[0], :version => chopped[1] }

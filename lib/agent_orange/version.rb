@@ -5,6 +5,7 @@ module AgentOrange
     attr_accessor :major, :minor, :patch_level, :build_number
 
     def initialize(version_string)
+      version_string = sanitize_version_string(version_string)
       self.major = nil
       self.minor = nil
       self.patch_level = nil
@@ -21,6 +22,12 @@ module AgentOrange
     
     def to_s
       [self.major, self.minor, self.patch_level, self.build_number].compact.join('.')
+    end
+    
+    private
+    
+    def sanitize_version_string(version_string)
+      version_string.gsub('_','.')
     end
   end
 end
