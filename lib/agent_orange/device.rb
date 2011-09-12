@@ -1,3 +1,4 @@
+require 'agent_orange/base'
 require 'agent_orange/platform'
 require 'agent_orange/operating_system'
 require 'agent_orange/engine'
@@ -21,20 +22,9 @@ module AgentOrange
       
       groups = parse_user_agent_string_into_groups(user_agent)
       groups.each_with_index do |content,i|
-        if content[:name] =~ /(#{DEVICES.collect{|cat,regex| regex}.join(')|(')})/i
+        if content[:comment] =~ /(#{DEVICES.collect{|cat,regex| regex}.join(')|(')})/i
           # Matched group against name
           self.populate(content)
-        elsif content[:comment] =~ /(#{DEVICES.collect{|cat,regex| regex}.join(')|(')})/i
-          # Matched group against comment
-          chosen_content = { :name => nil, :version => nil }
-          additional_groups = parse_comment(content[:comment])
-          additional_groups.each do |additional_content|
-            if additional_content[:name] =~ /(#{DEVICES.collect{|cat,regex| regex}.join(')|(')})/i
-              chosen_content = additional_content
-            end
-          end
-            
-          self.populate(chosen_content)
         end
       end
       
@@ -49,7 +39,7 @@ module AgentOrange
       self.debug_raw_content(content)
       AgentOrange.debug "", 2
       
-      self.type = self.determine_type(DEVICES, content[:name])
+      self.type = self.determine_type(DEVICES, content[:comment])
       self.name = self.type.to_s.capitalize
       self.version = nil
       self

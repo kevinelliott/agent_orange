@@ -1,5 +1,7 @@
+require 'agent_orange/base'
+
 module AgentOrange
-  class Platform
+  class Platform < Base
     attr_accessor :type, :name, :version
 
     PLATFORMS = {
@@ -16,11 +18,7 @@ module AgentOrange
       :pc => 'PC'
     }
     
-    def initialize(user_agent)
-      self.parse(user_agent)
-    end
-    
-    def parse(user_agent)
+    def old_parse(user_agent)
       AgentOrange.debug "PLATFORM PARSING", 2
       groups = user_agent.scan(/([^\/[:space:]]*)(\/([^[:space:]]*))?([[:space:]]*\[[a-zA-Z][a-zA-Z]\])?[[:space:]]*(\((([^()]|(\([^()]*\)))*)\))?[[:space:]]*/i)
       groups.each_with_index do |pieces,i|
@@ -63,6 +61,36 @@ module AgentOrange
       AgentOrange.debug "  Type: #{self.type}", 2
       AgentOrange.debug "  Name: #{self.name}", 2
       AgentOrange.debug "  Version: #{self.version}", 2
+      AgentOrange.debug "", 2
+    end
+    
+    def parse(user_agent)
+      AgentOrange.debug "PLATFORM PARSING", 2
+      
+      groups = parse_user_agent_string_into_groups(user_agent)
+      groups.each_with_index do |content,i|
+        if content[:comment] =~ /(#{PLATFORMS.collect{|cat,regex| regex}.join(')|(')})/i
+          # Matched group against name
+          self.populate(content)
+        end
+      end
+      
+      self.analysis
+    end
+    
+    def populate(content={})
+      self.debug_raw_content(content)
+      AgentOrange.debug "", 2
+      
+      self.type = self.determine_type(PLATFORMS, content[:comment])
+      self.name = PLATFORM_NAMES[self.type.to_sym]
+      self.version = nil
+      self
+    end
+    
+    def analysis
+      AgentOrange.debug "PLATFORM ANALYSIS", 2
+      self.debug_content(:type => self.type, :name => self.name, :version => self.version)
       AgentOrange.debug "", 2
     end
     
