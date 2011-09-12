@@ -4,7 +4,7 @@ require 'agent_orange/engine'
 require 'agent_orange/version'
 
 module AgentOrange
-  class Device
+  class Device < Base
     attr_accessor :type, :name, :version
     attr_accessor :platform
     attr_accessor :operating_system
@@ -16,56 +16,49 @@ module AgentOrange
       :bot => 'bot'
     }
     
-    def initialize(user_agent)
-      self.parse(user_agent)
-    end
-    
     def parse(user_agent)
       AgentOrange.debug "DEVICE PARSING", 2
-      groups = user_agent.scan(/([^\/[:space:]]*)(\/([^[:space:]]*))?([[:space:]]*\[[a-zA-Z][a-zA-Z]\])?[[:space:]]*(\((([^()]|(\([^()]*\)))*)\))?[[:space:]]*/i)
-      groups.each_with_index do |pieces,i|
-        name = pieces[0]
-        version = pieces[2]
-        comment = pieces[5]
-        
-        if comment =~ /(#{DEVICES.collect{|cat,regex| regex}.join(')|(')})/i
-          # Found the device
-          AgentOrange.debug "  Got a device in group #{i+1}!", 2
-          AgentOrange.debug "  Group Raw Name   : #{name}", 2
-          AgentOrange.debug "  Group Raw Version: #{version}", 2
-          AgentOrange.debug "  Group Raw Comment: #{comment}", 2
-          AgentOrange.debug "", 2
-                    
-          # Determine device type
-          if comment =~ /(#{DEVICES[:computer]})/i
-            self.type = "computer"
+      
+      groups = parse_user_agent_string_into_groups(user_agent)
+      groups.each_with_index do |content,i|
+        if content[:name] =~ /(#{DEVICES.collect{|cat,regex| regex}.join(')|(')})/i
+          # Matched group against name
+          self.populate(content)
+        elsif content[:comment] =~ /(#{DEVICES.collect{|cat,regex| regex}.join(')|(')})/i
+          # Matched group against comment
+          chosen_content = { :name => nil, :version => nil }
+          additional_groups = parse_comment(content[:comment])
+          additional_groups.each do |additional_content|
+            if additional_content[:name] =~ /(#{DEVICES.collect{|cat,regex| regex}.join(')|(')})/i
+              chosen_content = additional_content
+            end
           end
-          if comment =~ /(#{DEVICES[:mobile]})/i
-            self.type = "mobile"
-          end
-          if comment =~ /(#{DEVICES[:bot]})/i
-            self.type = "bot"
-          end
-          
-          # Determine device name
-          self.name = self.type.capitalize
-          
-          # Determine device version
-          self.version = nil
-          
+            
+          self.populate(chosen_content)
         end
-
       end
       
-      AgentOrange.debug "DEVICE ANALYSIS", 2
-      AgentOrange.debug "  Type: #{self.type}", 2
-      AgentOrange.debug "  Name: #{self.name}", 2
-      AgentOrange.debug "  Version: #{self.version}", 2
-      AgentOrange.debug "", 2
+      self.analysis
       
       self.platform = AgentOrange::Platform.new(user_agent)
       self.operating_system = AgentOrange::OperatingSystem.new(user_agent)
       self.engine = AgentOrange::Engine.new(user_agent)
+    end
+    
+    def populate(content={})
+      self.debug_raw_content(content)
+      AgentOrange.debug "", 2
+      
+      self.type = self.determine_type(DEVICES, content[:name])
+      self.name = self.type.to_s.capitalize
+      self.version = nil
+      self
+    end
+    
+    def analysis
+      AgentOrange.debug "DEVICE ANALYSIS", 2
+      self.debug_content(:type => self.type, :name => self.name, :version => self.version)
+      AgentOrange.debug "", 2
     end
     
     def is_computer?(name=nil)

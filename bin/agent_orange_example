@@ -29,6 +29,9 @@ def process_user_agent(ua_str)
   puts '='*120
 end
 
+AgentOrange::DEBUG = true
+AgentOrange::DEBUG_LEVEL = 2
+
 user_agent_strings.each do |ua_str|
   process_user_agent(ua_str)
 end
