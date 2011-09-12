@@ -9,10 +9,8 @@ module AgentOrange
     attr_accessor :user_language
     attr_accessor :device
     
-    def initialize(options = {}, &block)
-      self.parse(options[:user_agent].to_s)
-      
-      yield self if block_given?
+    def initialize(user_agent_string)
+      self.parse(user_agent_string)
     end
 
     def parse(user_agent)      
