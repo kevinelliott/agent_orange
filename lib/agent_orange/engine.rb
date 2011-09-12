@@ -22,14 +22,22 @@ module AgentOrange
     def parse(user_agent)
       AgentOrange.debug "ENGINE PARSING", 2
       results = user_agent.scan(/([^\/[:space:]]*)(\/([^[:space:]]*))?([[:space:]]*\[[a-zA-Z][a-zA-Z]\])?[[:space:]]*(\((([^()]|(\([^()]*\)))*)\))?[[:space:]]*/i)
-      groups = regex_results_into_groups(results)
+      groups = scan_results_into_groups(results)
       groups.each_with_index do |content,i|
         if content[:name] =~ /(#{ENGINES.collect{|cat,regex| regex}.join(')|(')})/i
-          # Matched group
-          self.populate_by(:name, content)
+          # Matched group against name
+          self.populate(content)
         elsif content[:comment] =~ /(#{ENGINES.collect{|cat,regex| regex}.join(')|(')})/i
-          # Matched group
-          self.populate_by(:comment, content)
+          # Matched group against comment
+          chosen_content = { :name => nil, :version => nil }
+          additional_groups = parse_comment(content[:comment])
+          additional_groups.each do |additional_content|
+            if additional_content[:name] =~ /(#{ENGINES.collect{|cat,regex| regex}.join(')|(')})/i
+              chosen_content = additional_content
+            end
+          end
+            
+          self.populate(chosen_content)
         end
       end
       
@@ -37,11 +45,23 @@ module AgentOrange
       self.browser = AgentOrange::Browser.new(user_agent)
     end
     
-    def regex_results_into_groups(results)
+    def scan_results_into_groups(results)
       groups = []
       results.each do |result|
-        if result[0] != ""
+        if result[0] != "" # Add the group of content if name isn't blank
           groups << { :name => result[0], :version => result[2], :comment => result[5] }
+        end
+      end
+      groups
+    end
+    
+    def parse_comment(comment)
+      groups = []
+      comment.split('; ').each do |piece|
+        content = { :name => nil, :version => nil }
+        if piece =~ /(.+)[ \/]([\w.]+)$/i
+          chopped = piece.scan(/(.+)[ \/]([\w.]+)$/i)[0]
+          groups << { :name => chopped[0], :version => chopped[1] }
         end
       end
       groups
@@ -57,18 +77,14 @@ module AgentOrange
       type
     end
     
-    def populate_by(key=:name, content={})
+    def populate(content={})
       AgentOrange.debug "  Raw Name   : #{content[:name]}", 2
       AgentOrange.debug "  Raw Version: #{content[:version]}", 2
       AgentOrange.debug "  Raw Comment: #{content[:comment]}", 2
       AgentOrange.debug "", 2
                 
-      self.type = self.determine_type(content[key])
-      
-      # Determine name
+      self.type = self.determine_type(content[:name])
       self.name = ENGINES[self.type.to_sym]
-      
-      # Determine version
       self.version = AgentOrange::Version.new(content[:version])
       self
     end
