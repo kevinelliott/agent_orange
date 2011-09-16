@@ -60,20 +60,20 @@ module AgentOrange
           return self.platform.name.downcase.include?(name.to_s.downcase)
         end
       else
-        (self.type == "computer")
+        (self.type == :computer)
       end
     end
     
     def is_mobile?(name=nil)
-      if name
+      if !name.nil?
         case name
         when String
-          return self.platform.name.downcase.include?(name.downcase)
+          return self.platform.name.downcase.include?(name.downcase) || self.platform.version.downcase.include?(name.downcase)
         when Symbol
-          return self.platform.name.downcase.include?(name.to_s.downcase)
+          return self.platform.name.downcase.include?(name.to_s.downcase) || self.platform.version.to_s.downcase.include?(name.to_s.downcase)
         end
       else
-        self.type == "mobile"
+        (self.type == :mobile)
       end
     end
     
@@ -86,7 +86,7 @@ module AgentOrange
           return self.name.downcase.include?(name.to_s.downcase)
         end
       else
-        self.type == "bot"
+        (self.type == :bot)
       end
     end
     

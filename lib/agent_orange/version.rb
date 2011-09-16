@@ -1,5 +1,5 @@
 module AgentOrange
-  VERSION = "0.0.8" # This is for the gem and does not conflict with the rest of the functionality
+  VERSION = "0.0.9" # This is for the gem and does not conflict with the rest of the functionality
   
   class Version
     attr_accessor :major, :minor, :patch_level, :build_number
