@@ -27,7 +27,7 @@ module AgentOrange
     private
     
     def sanitize_version_string(version_string)
-      version_string.gsub('_','.')
+      version_string ? version_string.gsub('_','.') : ""
     end
   end
 end
