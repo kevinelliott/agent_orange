@@ -1,4 +1,4 @@
-require 'lib/agent_orange/base'
+require 'agent_orange/base'
 
 module AgentOrange
   class Platform < Base

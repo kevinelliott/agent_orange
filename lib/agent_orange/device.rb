@@ -1,8 +1,8 @@
-require 'lib/agent_orange/base'
-require 'lib/agent_orange/platform'
-require 'lib/agent_orange/operating_system'
-require 'lib/agent_orange/engine'
-require 'lib/agent_orange/version'
+require 'agent_orange/base'
+require 'agent_orange/platform'
+require 'agent_orange/operating_system'
+require 'agent_orange/engine'
+require 'agent_orange/version'
 
 module AgentOrange
   class Device < Base

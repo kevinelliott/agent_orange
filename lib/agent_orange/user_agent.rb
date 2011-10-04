@@ -1,4 +1,4 @@
-require 'lib/agent_orange/device'
+require 'agent_orange/device'
 
 module AgentOrange
   DEBUG = false

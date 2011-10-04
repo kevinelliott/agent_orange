@@ -74,7 +74,7 @@ task :test_bots do
                         #puts "SUCCESS:: " + ua_str
                         success += 1
                 else
-                        puts "FAIL:: " + ua_str
+                        #puts "FAIL:: " + ua_str
                         fail += 1
                 end
         end

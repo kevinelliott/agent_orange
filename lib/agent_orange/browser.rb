@@ -1,5 +1,5 @@
-require 'lib/agent_orange/base'
-require 'lib/agent_orange/version'
+require 'agent_orange/base'
+require 'agent_orange/version'
 
 module AgentOrange
   class Browser < Base
