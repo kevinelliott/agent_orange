@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
-$:.push File.expand_path("../lib", __FILE__)
-require "agent_orange/version"
+$:.push File.expand_path("lib", __FILE__)
+require "lib/agent_orange/version"
 
 Gem::Specification.new do |s|
   s.name        = "agent_orange"

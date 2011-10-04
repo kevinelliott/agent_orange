@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require "agent_orange/user_agent"
+require "lib/agent_orange/user_agent"
 
 user_agent_strings = [
   "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_5; sv-se) AppleWebKit/525.26.2 (KHTML, like Gecko) Version/3.2 Safari/525.26.12",
@@ -14,7 +14,9 @@ user_agent_strings = [
   "Mozilla/5.0 (Windows NT 6.1; rv:6.0) Gecko/20110814 Firefox/6.0",
   "Mozilla/5.0 (X11; U; Linux i586; de; rv:5.0) Gecko/20100101 Firefox/5.0",
   "Opera/9.80 (Windows NT 6.1; U; es-ES) Presto/2.9.181 Version/12.00",
-  "Opera/9.80 (X11; Linux i686; U; ru) Presto/2.8.131 Version/11.11"
+  "Opera/9.80 (X11; Linux i686; U; ru) Presto/2.8.131 Version/11.11",
+  "ia_archiver (+http://www.alexa.com/site/help/webmasters; crawler@alexa.com)",
+  "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
   ]
 
 def process_user_agent(ua_str)
