@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+require 'rake'
 $:.push File.expand_path("../lib", __FILE__)
 require "agent_orange/version"
 
