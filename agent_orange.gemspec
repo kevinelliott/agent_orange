@@ -13,7 +13,8 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = "agent_orange"
 
-  s.files         = "agent_orange-0.1.0.gem"
+  s.files = FileList['lib/**/*.rb', 'bin/*', '[A-Z]*', 'test/**/*'].to_a
+
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
