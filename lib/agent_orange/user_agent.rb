@@ -3,17 +3,17 @@ require 'agent_orange/device'
 module AgentOrange
   DEBUG = false
   DEBUG_LEVEL = 1
-  
+
   class UserAgent
     attr_accessor :user_agent_string
     attr_accessor :user_language
     attr_accessor :device
-    
+
     def initialize(user_agent_string)
       self.parse(user_agent_string)
     end
 
-    def parse(user_agent)      
+    def parse(user_agent)
       self.user_agent_string = user_agent
       self.device = AgentOrange::Device.new(self.user_agent_string)
 
@@ -25,7 +25,7 @@ module AgentOrange
 
       self.summary
     end
-    
+
     def is_computer?(type=nil)
       self.device.is_computer?(type)
     end
@@ -39,14 +39,14 @@ module AgentOrange
     end
 
     def to_s
-      [self.device, 
-        self.device.platform, 
-        self.device.operating_system, 
-        self.device.engine, 
+      [self.device,
+        self.device.platform,
+        self.device.operating_system,
+        self.device.engine,
         self.device.engine.browser
         ].compact.join(", ")
     end
-    
+
     def to_human_string
       if self.device && self.device.engine && self.device.engine.browser
         "User has a #{self.device} running #{self.device.engine.browser} (which is based on #{self.device.engine})."
@@ -74,9 +74,9 @@ module AgentOrange
       AgentOrange.debug
     end
   end
-  
+
   def self.debug(str="", level=1)
     puts str if DEBUG && (DEBUG_LEVEL >= level)
   end
-  
+
 end
