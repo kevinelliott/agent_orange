@@ -1,4 +1,4 @@
-require "lib/agent_orange"
+require "agent_orange"
 require 'rexml/document'
 
 task :test_bots do
