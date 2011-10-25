@@ -14,12 +14,16 @@ device, or is a bot (such as Google). It was composed by using techniques gather
 several other libraries/gems in an effort to be consistent and cover as many types
 of agents as possible.
 
-== Status
+== Project Status
 
-=== Improvement stage.
+=== Stable, but needs improvement.
 
-This library is not yet testable but does function. Please contact me if you'd like
-to participate.
+This library does detect the requesting user (device, platform, os, framework, and browser with versions)
+and now has some rpsec tests. While it is stable and no large restructuring is planned, it can use
+some optimizations and improvements to the detection algorithms. The techniques currently in place
+are rather simple, and not perfect (for example, it is currently confused if it sees both Chrome and
+Safari in user agent string, and doesn't pick based on order of appearance). If you'd like to help,
+please contact me.
 
 == Installation
 
@@ -146,8 +150,15 @@ AgentOrange::Version
   
 == Maintainer
 
-* Kevin Elliott - http://kevinelliott.net
+* Kevin Elliott - http://kevinelliott.net - http://github.com/kevinelliott
 * WeLike - http://www.welikeinc.com - http://github.com/welike
+
+== Contributors
+
+A warm thank you to all contributors to the project, who have put effort and time into making this gem more useful.
+
+* David Rice (davidjrice) - RSpec tests and bug fixes.
+* Joshua Siler (eatenbyagrue) - Bot detection, initial test, and bug fixes.
 
 == License
 
