@@ -1,9 +1,9 @@
-= agent_orange 
+# agent_orange 
 [![Build Status](https://secure.travis-ci.org/thoughtbot/kumade.png)](http://travis-ci.org/thoughtbot/kumade)
 
 User Agent detection for Ruby. ActionController integration coming soon.
 
-== About
+## About
 
 There are quite a few User Agent parsing libraries already, but none of them make adequate
 detection of mobile browsers and clients. With such a significant number of requests
@@ -15,9 +15,9 @@ device, or is a bot (such as Google). It was composed by using techniques gather
 several other libraries/gems in an effort to be consistent and cover as many types
 of agents as possible.
 
-== Project Status
+## Project Status
 
-=== Stable, but needs improvement.
+### Stable, but needs improvement.
 
 This library does detect the requesting user (device, platform, os, framework, and browser with versions)
 and now has some rpsec tests. While it is stable and no large restructuring is planned, it can use
@@ -26,19 +26,19 @@ are rather simple, and not perfect (for example, it is currently confused if it 
 Safari in user agent string, and doesn't pick based on order of appearance). If you'd like to help,
 please contact me.
 
-== Installation
+## Installation
 
   gem install agent_orange
 
 If you're going to use it with Rails then add the gem to your Gemfile.
 
-== Example Usage
+## Example Usage
 
-=== Create new user agent parser
+### Create new user agent parser
 
   >> ua = AgentOrange::UserAgent.new(user_agent_string)
 
-=== Looking at the device
+### Looking at the device
 
   >> device = ua.device
   => "Mobile"
@@ -49,7 +49,7 @@ If you're going to use it with Rails then add the gem to your Gemfile.
   >> device.version
   => nil
 
-=== Check to see if the device is mobile, a desktop/laptop/server computer, or a bot
+### Check to see if the device is mobile, a desktop/laptop/server computer, or a bot
 
   >> device.is_mobile?
   => true
@@ -58,12 +58,12 @@ If you're going to use it with Rails then add the gem to your Gemfile.
   >> device.is_bot?
   => false
 
-=== Use the proxies to check if the user is on a mobile device
+### Use the proxies to check if the user is on a mobile device
 
   >> ua.is_mobile?
   => true
 
-=== Looking at the platform
+### Looking at the platform
 
   >> platform = ua.device.platform
   => "iPhone"
@@ -74,7 +74,7 @@ If you're going to use it with Rails then add the gem to your Gemfile.
   >> platform.version
   => "3GS"
   
-=== Looking at the operating system
+### Looking at the operating system
 
   >> os = ua.device.os
   => "iPhone OS 4.3"
@@ -85,7 +85,7 @@ If you're going to use it with Rails then add the gem to your Gemfile.
   >> os.version
   => "4.3"
   
-=== Looking at the web engine
+### Looking at the web engine
 
   >> engine = ua.device.engine
   => "WebKit 5.3"
@@ -96,7 +96,7 @@ If you're going to use it with Rails then add the gem to your Gemfile.
   >> engine.version
   => "5.3.1.2321"
 
-=== Looking at the browser
+### Looking at the browser
 
   >> browser = ua.device.engine.browser
   => "Internet Explorer 10"
@@ -107,12 +107,12 @@ If you're going to use it with Rails then add the gem to your Gemfile.
   >> browser.version
   => "10.0.112"
 
-=== Quickly get to the browser version
+### Quickly get to the browser version
 
   >> AgentOrange::UserAgent.new(user_agent_string).device.engine.browser.version
   => "10.0.112"
 
-== General Class Definition
+## General Class Definition
 
 This is not up to date or a reflection of the actual class structure. This will be updated eventually.
 
@@ -149,19 +149,19 @@ AgentOrange::Version
   build_number
   to_s
   
-== Maintainer
+## Maintainer
 
 * Kevin Elliott - http://kevinelliott.net - http://github.com/kevinelliott
 * WeLike - http://www.welikeinc.com - http://github.com/welike
 
-== Contributors
+## Contributors
 
 A warm thank you to all contributors to the project, who have put effort and time into making this gem more useful.
 
 * David Rice (davidjrice) - RSpec tests and bug fixes.
 * Joshua Siler (eatenbyagrue) - Bot detection, initial test, and bug fixes.
 
-== License
+## License
 
 (The MIT License)
 
