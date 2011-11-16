@@ -1,4 +1,4 @@
-= agent_orange
+= agent_orange [![Build Status](https://secure.travis-ci.org/thoughtbot/kumade.png)](http://travis-ci.org/thoughtbot/kumade)
 
 User Agent detection for Ruby. ActionController integration coming soon.
 
