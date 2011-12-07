@@ -82,4 +82,50 @@ describe AgentOrange::UserAgent do
     end
   end
 
+  describe 'checking with real browsers list' do
+    before  do
+      begin
+        @html_list = Net::HTTP.get('www.zytrax.com', '/tech/web/browser_ids.htm')
+      rescue
+        @http_list = File.open("spec/fixtures/browser_ids.htm").read
+      end
+    end
+
+    it "should parse browsers from list" do
+      [
+        {
+          :a_name => 'chrome',
+          :browser_names => ['Safari']
+        },
+        {
+          :a_name => 'safari',
+          :browser_names => ['Safari']
+        },
+        {
+          :a_name => 'firefox',
+          :browser_names => ['Firefox']
+        },
+        {
+          :a_name => 'msie',
+          :browser_names => ['MSIE','IEMobile']
+        },
+        {
+          :a_name => 'opera',
+          :browser_names => ['Opera']
+        }
+      ].each do |params|
+        part = @http_list.scan(/<a name="#{params[:a_name]}">.+?<a name="/m).first.to_s
+
+        part.scan(/<p class="g-c-s">([^<]+)<\/p>/).each do |q|
+          ua = AgentOrange::UserAgent.new(q.first)
+          br_name = ua.device.engine.browser.name
+
+          params[:browser_names].should include(br_name)
+        end
+      end
+    end
+
+  end
+
+
 end
