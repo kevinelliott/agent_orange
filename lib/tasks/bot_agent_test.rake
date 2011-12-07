@@ -1,6 +1,7 @@
 require "agent_orange"
 require 'rexml/document'
 
+desc "Test bots detection"
 task :test_bots do
 	success = 0
 	fail = 0
