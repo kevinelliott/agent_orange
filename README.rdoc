@@ -3,6 +3,8 @@
 
 User Agent detection for Ruby. ActionController integration coming soon.
 
+(NOTE: Should we change the project's name? Please visit the Issues to chime in.)
+
 == About
 
 There are quite a few User Agent parsing libraries already, but none of them make adequate
@@ -158,8 +160,9 @@ AgentOrange::Version
 
 A warm thank you to all contributors to the project, who have put effort and time into making this gem more useful.
 
-* David Rice (davidjrice) - RSpec tests and bug fixes.
-* Joshua Siler (eatenbyagrue) - Bot detection, initial test, and bug fixes.
+* David Rice (@davidjrice) - RSpec tests and bug fixes.
+* Joshua Siler (@eatenbyagrue) - Bot detection, initial test, and bug fixes.
+* Alexander Rozumiy (@brain-geek) - Rspec testing for 1.9, updated travis-ci config, updated useragents to test against.
 
 == License
 
