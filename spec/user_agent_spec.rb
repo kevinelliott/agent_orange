@@ -1,4 +1,6 @@
 require File.dirname(__FILE__) + '/spec_helper'
+require 'net/http'
+require 'iconv'
 
 describe AgentOrange::UserAgent do
 
@@ -84,10 +86,11 @@ describe AgentOrange::UserAgent do
 
   describe 'checking with real browsers list' do
     before  do
+      @lists = [Iconv.new('UTF-8//IGNORE', 'UTF-8').iconv( File.open("spec/fixtures/browser_ids.htm").read)]
+
       begin
-        @html_list = Net::HTTP.get('www.zytrax.com', '/tech/web/browser_ids.htm')
+        @lists.push Net::HTTP.get('www.zytrax.com', '/tech/web/browser_ids.htm')
       rescue
-        @http_list = File.open("spec/fixtures/browser_ids.htm").read
       end
     end
 
@@ -114,7 +117,11 @@ describe AgentOrange::UserAgent do
           :browser_names => ['Opera']
         }
       ].each do |params|
-        part = @http_list.scan(/<a name="#{params[:a_name]}">.+?<a name="/m).first.to_s
+        part = ''
+
+        @lists.each do |list|
+          part += list.scan(/<a name="#{params[:a_name]}">.+?<a name="/m).first.to_s
+        end
 
         part.scan(/<p class="g-c-s">([^<]+)<\/p>/).each do |q|
           ua = AgentOrange::UserAgent.new(q.first)
