@@ -10,8 +10,11 @@ module AgentOrange
       :ie       => 'MSIE|Internet Explorer|IE',
       :firefox  => 'Firefox',
       :opera    => 'Opera',
+      :chrome   => 'Chrome',
       :safari   => 'Safari'
     }
+
+    BROWSER_TITLES = BROWSERS.merge :ie => 'MSIE'
 
     def parse(user_agent)
       AgentOrange.debug "BROWSER PARSING", 2
@@ -21,6 +24,7 @@ module AgentOrange
         if content[:name] =~ /(#{BROWSERS.collect{|cat,regex| regex}.join(')|(')})/i
           # Matched group against name
           self.populate(content)
+          break
         elsif content[:comment] =~ /(#{BROWSERS.collect{|cat,regex| regex}.join(')|(')})/i
           # Matched group against comment
           chosen_content = { :name => nil, :version => nil }
@@ -28,6 +32,11 @@ module AgentOrange
           additional_groups.each do |additional_content|
             if additional_content[:name] =~ /(#{BROWSERS.collect{|cat,regex| regex}.join(')|(')})/i
               chosen_content = additional_content
+
+              #Additional checking for chromeframe, iemobile, etc.
+              BROWSERS.each do |cat, regex|
+                chosen_content[:name] = BROWSER_TITLES[cat] if additional_content[:name] =~ /(#{regex})/i
+              end
             end
           end
 
