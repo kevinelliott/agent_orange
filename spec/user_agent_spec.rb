@@ -22,24 +22,6 @@ describe AgentOrange::UserAgent do
       ua.device.engine.browser.name.should == "Safari"
       ua.device.engine.browser.version.to_s.should == "533.21.1"
     end
-
-    detect "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_1) AppleWebKit/535.5 (KHTML, like Gecko) Chrome/16.0.891.1 Safari/535.5" do |ua|
-      ua.device.type.should == :computer
-      ua.device.name.should == "Computer"
-      ua.device.version.should == nil
-
-      ua.device.operating_system.name.should == "Mac OS X"
-      ua.device.operating_system.version.to_s.should == "10.7.1"
-
-      ua.device.platform.name.should == "Macintosh"
-      ua.device.platform.version.should == nil
-
-      ua.device.engine.name.should == "AppleWebKit"
-      ua.device.engine.version.to_s.should == "535.5"
-
-      ua.device.engine.browser.name.should == "Safari"
-      ua.device.engine.browser.version.to_s.should == "535.5"
-    end
   end
 
   describe "Firefox" do
@@ -78,61 +60,35 @@ describe AgentOrange::UserAgent do
       ua.device.engine.name.should == "AppleWebKit"
       ua.device.engine.version.to_s.should == "535.2"
 
-      # TODO should be Chrome.
-      ua.device.engine.browser.name.should == "Safari"
-      ua.device.engine.browser.version.to_s.should == "535.2"
+      ua.device.engine.browser.name.should == "Chrome"
+      ua.device.engine.browser.version.to_s.should == "15.0.872.0"
+    end
+
+    detect "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_1) AppleWebKit/535.5 (KHTML, like Gecko) Chrome/16.0.891.1 Safari/535.5" do |ua|
+      ua.device.type.should == :computer
+      ua.device.name.should == "Computer"
+      ua.device.version.should == nil
+
+      ua.device.operating_system.name.should == "Mac OS X"
+      ua.device.operating_system.version.to_s.should == "10.7.1"
+
+      ua.device.platform.name.should == "Macintosh"
+      ua.device.platform.version.should == nil
+
+      ua.device.engine.name.should == "AppleWebKit"
+      ua.device.engine.version.to_s.should == "535.5"
+
+      ua.device.engine.browser.name.should == "Chrome"
+      ua.device.engine.browser.version.to_s.should == "16.0.891.1"
+    end
+
+    detect "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; chromeframe/13.0.782.218; chromeframe; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30; .NET CLR 3.0.04506.648; .NET CLR 3.5.21022; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)" do |ua|
+      ua.device.type.should == :computer
+      ua.device.name.should == "Computer"
+      ua.device.version.should == nil
+
+      ua.device.engine.browser.name.should == "Chrome"
+      ua.device.engine.browser.version.to_s.should == "13.0.782.218"
     end
   end
-
-  describe 'checking with real browsers list' do
-    before  do
-      @lists = [Iconv.new('UTF-8//IGNORE', 'UTF-8').iconv( File.open("spec/fixtures/browser_ids.htm").read)]
-
-      begin
-        @lists.push Net::HTTP.get('www.zytrax.com', '/tech/web/browser_ids.htm')
-      rescue
-      end
-    end
-
-    it "should parse browsers from list" do
-      [
-        {
-          :a_name => 'chrome',
-          :browser_names => ['Safari']
-        },
-        {
-          :a_name => 'safari',
-          :browser_names => ['Safari']
-        },
-        {
-          :a_name => 'firefox',
-          :browser_names => ['Firefox']
-        },
-        {
-          :a_name => 'msie',
-          :browser_names => ['MSIE','IEMobile']
-        },
-        {
-          :a_name => 'opera',
-          :browser_names => ['Opera']
-        }
-      ].each do |params|
-        part = ''
-
-        @lists.each do |list|
-          part += list.scan(/<a name="#{params[:a_name]}">.+?<a name="/m).first.to_s
-        end
-
-        part.scan(/<p class="g-c-s">([^<]+)<\/p>/).each do |q|
-          ua = AgentOrange::UserAgent.new(q.first)
-          br_name = ua.device.engine.browser.name
-
-          params[:browser_names].should include(br_name)
-        end
-      end
-    end
-
-  end
-
-
 end
