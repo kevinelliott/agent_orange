@@ -14,7 +14,7 @@ module AgentOrange
     DEVICES = {
       :computer => 'windows|macintosh|x11|linux',
       :mobile => 'ipod|ipad|iphone|palm|android|opera mini|hiptop|windows ce|smartphone|mobile|treo|psp',
-      :bot => 'alexa|bot|crawl(er|ing)|facebookexternalhit|feedburner|nagios|postrank|pingdom|slurp|spider|yahoo!'
+      :bot => 'alexa|bot|crawl(er|ing)|facebookexternalhit|feedburner|google web preview|nagios|postrank|pingdom|slurp|spider|yahoo!'
     }
 
     def parse(user_agent)
