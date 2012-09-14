@@ -17,7 +17,7 @@ module AgentOrange
     }
     
     BOTS = {
-      :bot => 'bot|googlebot|crawler|spider|robot|crawling'
+      :bot => 'alexa|bot|crawl(er|ing)|facebookexternalhit|feedburner|google web preview|nagios|postrank|pingdom|slurp|spider|yahoo!|yandex'
     }
 
     def parse(user_agent)
