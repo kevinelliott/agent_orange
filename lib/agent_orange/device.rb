@@ -6,7 +6,7 @@ require 'agent_orange/version'
 
 module AgentOrange
   class Device < Base
-    attr_accessor :type, :name, :version
+    attr_accessor :type, :name, :version, :bot
     attr_accessor :platform
     attr_accessor :operating_system
     attr_accessor :engine
@@ -14,6 +14,9 @@ module AgentOrange
     DEVICES = {
       :computer => 'windows|macintosh|x11|linux',
       :mobile => 'ipod|ipad|iphone|palm|android|opera mini|hiptop|windows ce|smartphone|mobile|treo|psp',
+    }
+    
+    BOTS = {
       :bot => 'bot|googlebot|crawler|spider|robot|crawling'
     }
 
@@ -22,7 +25,8 @@ module AgentOrange
 
       groups = parse_user_agent_string_into_groups(user_agent)
       groups.each_with_index do |content,i|
-        if content[:comment] =~ /(#{DEVICES.collect{|cat,regex| regex}.join(')|(')})/i
+        devices_and_bots = DEVICES.merge(BOTS)
+        if content[:comment] =~ /(#{devices_and_bots.collect{|cat,regex| regex}.join(')|(')})/i
           # Matched group against name
           self.populate(content)
         end
@@ -40,6 +44,10 @@ module AgentOrange
       AgentOrange.debug "", 2
 
       self.type = self.determine_type(DEVICES, content[:comment])
+      self.bot = self.determine_type(BOTS, content[:comment]) == :bot
+      if (self.bot && self.type == "other")
+        self.type = :bot # backwards compatability
+      end
       self.name = self.type.to_s.capitalize
       self.version = nil
       self
@@ -86,7 +94,7 @@ module AgentOrange
           return self.name.downcase.include?(name.to_s.downcase)
         end
       else
-        (self.type == :bot)
+        self.bot
       end
     end
 
