@@ -9,6 +9,7 @@ describe AgentOrange::UserAgent do
       ua.device.type.should == :computer
       ua.device.name.should == "Computer"
       ua.device.version.should == nil
+      ua.device.bot.should == false
 
       ua.device.operating_system.name.should == "Mac OS X"
       ua.device.operating_system.version.to_s.should == "10.6.8"
@@ -29,6 +30,7 @@ describe AgentOrange::UserAgent do
       ua.device.type.should == :computer
       ua.device.name.should == "Computer"
       ua.device.version.should == nil
+      ua.device.bot.should == false
 
       ua.device.operating_system.name.should == "Linux"
       ua.device.operating_system.version.to_s.should == "i686"
@@ -50,6 +52,7 @@ describe AgentOrange::UserAgent do
       ua.device.type.should == :computer
       ua.device.name.should == "Computer"
       ua.device.version.should == nil
+      ua.device.bot.should == false
 
       ua.device.operating_system.name.should == "Windows"
       ua.device.operating_system.version.to_s.should == "5.1"
@@ -68,6 +71,7 @@ describe AgentOrange::UserAgent do
       ua.device.type.should == :computer
       ua.device.name.should == "Computer"
       ua.device.version.should == nil
+      ua.device.bot.should == false
 
       ua.device.operating_system.name.should == "Mac OS X"
       ua.device.operating_system.version.to_s.should == "10.7.1"
@@ -86,9 +90,39 @@ describe AgentOrange::UserAgent do
       ua.device.type.should == :computer
       ua.device.name.should == "Computer"
       ua.device.version.should == nil
+      ua.device.bot.should == false
 
       ua.device.engine.browser.name.should == "Chrome"
       ua.device.engine.browser.version.to_s.should == "13.0.782.218"
     end
+  end
+  
+  describe "Google User Agents" do
+    detect "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_1 like Mac OS X; en-us) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8B117 Safari/6531.22.7 (compatible; Googlebot-Mobile/2.1; +http://www.google.com/bot.html)" do |ua|
+      ua.device.type.should == :mobile
+      ua.device.name.should == "Mobile"
+      ua.device.version.should == nil
+      ua.device.bot.should == true
+      ua.is_mobile?.should == true
+      ua.is_computer?.should == false
+      ua.is_bot?.should == true
+
+      ua.device.engine.browser.name.should == "Safari"
+      ua.device.engine.browser.version.to_s.should == "6531.22.7"    
+    end
+    
+    detect "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)" do |ua|
+      ua.device.type.should == :bot
+      ua.device.name.should == "Bot"
+      ua.device.version.should == nil
+      ua.device.bot.should == true
+      ua.is_mobile?.should == false
+      ua.is_computer?.should == false
+      ua.is_bot?.should == true
+
+      ua.device.engine.browser.name.should == nil
+      ua.device.engine.browser.version.to_s.should == ""
+    end
+    
   end
 end
