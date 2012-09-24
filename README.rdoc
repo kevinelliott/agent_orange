@@ -78,7 +78,7 @@ If you're going to use it with Rails then add the gem to your Gemfile.
   
 === Looking at the operating system
 
-  >> os = ua.device.os
+  >> os = ua.device.operating_system
   => "iPhone OS 4.3"
   >> os.type
   => "iphone_os"
