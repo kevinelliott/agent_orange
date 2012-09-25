@@ -164,6 +164,7 @@ A warm thank you to all contributors to the project, who have put effort and tim
 * Joshua Siler (@eatenbyagrue) - Bot detection, initial test, and bug fixes.
 * Alexander Rozumiy (@brain-geek) - Rspec testing for 1.9, updated travis-ci config, updated useragents to test against.
 * Joe Lencioni (@lencioni) - Improved bot detection.
+* Todd Huss (@thuss) of Two Bit Labs (@twobitlabs) - Google Mobile crawler detection as mobile and bot.
 
 == License
 
