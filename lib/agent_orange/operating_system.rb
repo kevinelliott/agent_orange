@@ -7,6 +7,8 @@ module AgentOrange
 
     # @return [String] one of the values from {OPERATING_SYSTEM_NAMES}
     attr_accessor :name
+
+    # @return [AgentOrange::Version]
     attr_accessor :version
 
     OPERATING_SYSTEMS = {
