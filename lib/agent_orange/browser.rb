@@ -3,7 +3,15 @@ require 'agent_orange/version'
 
 module AgentOrange
   class Browser < Base
-    attr_accessor :type, :name, :version
+    # @return [Symbol] one of the keys from {BROWSERS}
+    attr_accessor :type
+
+    # @return [String] one of the values from {BROWSERS}
+    attr_accessor :name
+
+    # @return [AgentOrange::Version]
+    attr_accessor :version
+
     attr_accessor :security
 
     BROWSERS = {
@@ -63,6 +71,7 @@ module AgentOrange
       AgentOrange.debug "", 2
     end
 
+    # @return {String}
     def to_s
       [self.name, self.version].compact.join(' ')
     end

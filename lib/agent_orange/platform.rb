@@ -2,7 +2,14 @@ require 'agent_orange/base'
 
 module AgentOrange
   class Platform < Base
-    attr_accessor :type, :name, :version
+    # @return [Symbol] one of the keys from {PLATFORMS}
+    attr_accessor :type
+
+    # @return [String] one of the values from {PLATFORM_NAMES}
+    attr_accessor :name
+
+    # @return [AgentOrange::Version]
+    attr_accessor :version
 
     PLATFORMS = {
       :android => 'android',
@@ -17,6 +24,7 @@ module AgentOrange
       :mac => 'Macintosh',
       :pc => 'PC'
     }
+
     PLATFORM_VERSIONS = {
       :ipad => 'ipad',
       :iphone => 'iphone',

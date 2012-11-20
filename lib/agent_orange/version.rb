@@ -2,7 +2,17 @@ module AgentOrange
   VERSION = "0.1.4" # This is for the gem and does not conflict with the rest of the functionality
 
   class Version
-    attr_accessor :major, :minor, :patch_level, :build_number
+    # @return [String, nil]
+    attr_accessor :major
+
+    # @return [String, nil]
+    attr_accessor :minor
+
+    # @return [String, nil]
+    attr_accessor :patch_level
+
+    # @return [String, nil]
+    attr_accessor :build_number
 
     def initialize(version_string)
       version_string = sanitize_version_string(version_string)
@@ -20,6 +30,7 @@ module AgentOrange
       self.build_number = pieces[3] if pieces_count >= 4
     end
 
+    # @return [String]
     def to_s
       [self.major, self.minor, self.patch_level, self.build_number].compact.join('.')
     end
