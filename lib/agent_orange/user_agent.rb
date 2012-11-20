@@ -5,10 +5,15 @@ module AgentOrange
   DEBUG_LEVEL = 1
 
   class UserAgent
+    # @return [String]
     attr_accessor :user_agent_string
+
     attr_accessor :user_language
+
+    # @return [AgentOrange::Device]
     attr_accessor :device
 
+    # @param [String] user_agent_string
     def initialize(user_agent_string)
       self.parse(user_agent_string)
     end
@@ -26,18 +31,22 @@ module AgentOrange
       self.summary
     end
 
+    # @return [Boolean]
     def is_computer?(type=nil)
       self.device.is_computer?(type)
     end
 
+    # @return [Boolean]
     def is_mobile?(type=nil)
       self.device.is_mobile?(type)
     end
 
+    # @return [Boolean]
     def is_bot?(type=nil)
       self.device.is_bot?(type)
     end
 
+    # @return [String]
     def to_s
       [self.device,
         self.device.platform,
@@ -47,6 +56,7 @@ module AgentOrange
         ].compact.join(", ")
     end
 
+    # @return [String]
     def to_human_string
       if self.device && self.device.engine && self.device.engine.browser
         "User has a #{self.device} running #{self.device.engine.browser} (which is based on #{self.device.engine})."

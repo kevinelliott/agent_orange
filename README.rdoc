@@ -116,7 +116,7 @@ If you're going to use it with Rails then add the gem to your Gemfile.
 
 == General Class Definition
 
-This is not up to date or a reflection of the actual class structure. This will be updated eventually.
+This is not up to date or a reflection of the actual class structure. This will be updated eventually.  See http://rubydoc.info/gems/agent_orange/frames for more detailed docs.
 
 AgentOrange::UserAgent
   device
