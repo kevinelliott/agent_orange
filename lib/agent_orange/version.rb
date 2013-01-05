@@ -1,5 +1,5 @@
 module AgentOrange
-  VERSION = "0.1.4" # This is for the gem and does not conflict with the rest of the functionality
+  VERSION = "0.1.5" # This is for the gem and does not conflict with the rest of the functionality
 
   class Version
     # @return [String, nil]
