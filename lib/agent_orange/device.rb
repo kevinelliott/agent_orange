@@ -6,9 +6,25 @@ require 'agent_orange/version'
 
 module AgentOrange
   class Device < Base
-    attr_accessor :type, :name, :version, :bot
+    # @return [Symbol] one of the keys from {DEVICES}
+    attr_accessor :type
+
+    # @return [String]
+    attr_accessor :name
+
+    # @return [AgentOrange::Version]
+    attr_accessor :version
+
+    # @return [Boolean]
+    attr_accessor :bot
+
+    # @return [AgentOrange::Platform]
     attr_accessor :platform
+
+    # @return [AgentOrange::OperatingSystem]
     attr_accessor :operating_system
+
+    # @return [AgentOrange::Engine]
     attr_accessor :engine
 
     DEVICES = {
@@ -59,6 +75,7 @@ module AgentOrange
       AgentOrange.debug "", 2
     end
 
+    # @return [Boolean]
     def is_computer?(name=nil)
       if name
         case name
@@ -72,6 +89,7 @@ module AgentOrange
       end
     end
 
+    # @return [Boolean]
     def is_mobile?(name=nil)
       if !name.nil? && !self.platform.name.nil?
         case name
@@ -85,6 +103,7 @@ module AgentOrange
       end
     end
 
+    # @return [Boolean]
     def is_bot?(name=nil)
       if name
         case name
@@ -98,6 +117,7 @@ module AgentOrange
       end
     end
 
+    # @return [String]
     def to_s
       [self.name, self.version].compact.join(' ')
     end

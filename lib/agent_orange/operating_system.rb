@@ -2,7 +2,14 @@ require 'agent_orange/base'
 
 module AgentOrange
   class OperatingSystem < Base
-    attr_accessor :type, :name, :version
+    # @return [Symbol] one of the keys from {OPERATING_SYSTEMS}
+    attr_accessor :type
+
+    # @return [String] one of the values from {OPERATING_SYSTEM_NAMES}
+    attr_accessor :name
+
+    # @return [AgentOrange::Version]
+    attr_accessor :version
 
     OPERATING_SYSTEMS = {
       :android => 'android',
@@ -62,6 +69,7 @@ module AgentOrange
       AgentOrange.debug "", 2
     end
 
+    # @return [String]
     def to_s
       [self.name, self.version].compact.join(' ')
     end

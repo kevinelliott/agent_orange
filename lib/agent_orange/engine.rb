@@ -5,7 +5,16 @@ require 'pp'
 
 module AgentOrange
   class Engine < Base
-    attr_accessor :type, :name, :version
+    # @return [Symbol] one of the keys from {ENGINES}
+    attr_accessor :type
+
+    # @return [String] one of the values from {ENGINES}
+    attr_accessor :name
+
+    # @return [AgentOrange::Version]
+    attr_accessor :version
+
+    # @return [AgentOrange::Browser]
     attr_accessor :browser
 
     ENGINES = {
@@ -58,6 +67,7 @@ module AgentOrange
       AgentOrange.debug "", 2
     end
 
+    # @return [String]
     def to_s
       [self.name, self.version].compact.join(' ') || "Unknown"
     end
