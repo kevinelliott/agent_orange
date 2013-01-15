@@ -1,5 +1,6 @@
 = agent_orange 
-{<img src="https://secure.travis-ci.org/kevinelliott/agent_orange.png">}[http://travis-ci.org/kevinelliott/agent_orange]
+{<img src="https://secure.travis-ci.org/kevinelliott/agent_orange.png">}[http://travis-ci.org/kevinelliott/agent_orange] {<img src="https://gemnasium.com/kevinelliott/agent_orange.png" alt="Dependency Status" />}[https://gemnasium.com/kevinelliott/agent_orange]
+
 
 User Agent detection for Ruby. ActionController integration coming soon.
 
