@@ -48,32 +48,27 @@ module AgentOrange
             end
           end
 
-          self.populate(chosen_content)
+          populate(chosen_content)
         end
       end
 
-      self.analysis
+      analysis
     end
 
+    # @return [Browser]
     def populate(content={})
-      self.debug_raw_content(content)
+      debug_raw_content(content)
       AgentOrange.debug "", 2
 
-      self.type = self.determine_type(BROWSERS, content[:name])
+      self.type = determine_type(BROWSERS, content[:name])
       self.name = content[:name]
       self.version = AgentOrange::Version.new(content[:version])
       self
     end
 
-    def analysis
-      AgentOrange.debug "BROWSER ANALYSIS", 2
-      self.debug_content(:type => self.type, :name => self.name, :version => self.version)
-      AgentOrange.debug "", 2
-    end
-
     # @return {String}
     def to_s
-      [self.name, self.version].compact.join(' ')
+      [name, version].compact.join(' ')
     end
   end
 end

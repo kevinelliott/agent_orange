@@ -1,7 +1,6 @@
 require 'agent_orange/base'
 require 'agent_orange/browser'
 require 'agent_orange/version'
-require 'pp'
 
 module AgentOrange
   class Engine < Base
@@ -32,7 +31,7 @@ module AgentOrange
       groups.each_with_index do |content,i|
         if content[:name] =~ /(#{ENGINES.collect{|cat,regex| regex}.join(')|(')})/i
           # Matched group against name
-          self.populate(content)
+          populate(content)
         elsif content[:comment] =~ /(#{ENGINES.collect{|cat,regex| regex}.join(')|(')})/i
           # Matched group against comment
           chosen_content = { :name => nil, :version => nil }
@@ -43,33 +42,29 @@ module AgentOrange
             end
           end
 
-          self.populate(chosen_content)
+          populate(chosen_content)
         end
       end
 
-      self.analysis
+      analysis
+      
       self.browser = AgentOrange::Browser.new(user_agent)
     end
 
+    # @return [Engine]
     def populate(content={})
-      self.debug_raw_content(content)
+      debug_raw_content(content)
       AgentOrange.debug "", 2
 
-      self.type = self.determine_type(ENGINES, content[:name])
-      self.name = ENGINES[self.type.to_sym]
+      self.type = determine_type(ENGINES, content[:name])
+      self.name = ENGINES[type.to_sym]
       self.version = AgentOrange::Version.new(content[:version])
       self
     end
 
-    def analysis
-      AgentOrange.debug "ENGINE ANALYSIS", 2
-      self.debug_content(:type => self.type, :name => self.name, :version => self.version)
-      AgentOrange.debug "", 2
-    end
-
     # @return [String]
     def to_s
-      [self.name, self.version].compact.join(' ') || "Unknown"
+      [name, version].compact.join(' ') || "Unknown"
     end
   end
 end

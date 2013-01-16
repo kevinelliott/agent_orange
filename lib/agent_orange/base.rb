@@ -2,9 +2,14 @@ module AgentOrange
   class Base
     
     def initialize(user_agent)
-      self.parse(user_agent)
+      parse(user_agent)
     end
     
+    def parse(user_agent)
+      raise 'Any class that extends AgentOrange::Base must implement parse(user_agent)'
+    end
+
+    # @return [Array]
     def parse_user_agent_string_into_groups(user_agent)
       results = user_agent.scan(/([^\/[:space:]]*)(\/([^[:space:]]*))?([[:space:]]*\[[a-zA-Z][a-zA-Z]\])?[[:space:]]*(\((([^()]|(\([^()]*\)))*)\))?[[:space:]]*/i)
       groups = []
@@ -16,6 +21,7 @@ module AgentOrange
       groups
     end
     
+    # @return [Array]
     def parse_comment(comment)
       groups = []
       comment.split('; ').each do |piece|
@@ -32,6 +38,7 @@ module AgentOrange
       groups
     end
 
+    # @return [String]
     def determine_type(types={}, content="")
       # Determine type
       type = nil
@@ -54,5 +61,10 @@ module AgentOrange
       AgentOrange.debug "  Version: #{self.version}", 2
     end
     
+    def analysis
+      AgentOrange.debug self.class.name.upcase + ' ANALYSIS', 2
+      debug_content(:type => type, :name => name, :version => version)
+      AgentOrange.debug '', 2
+    end
   end
 end

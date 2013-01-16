@@ -16,23 +16,23 @@ module AgentOrange
 
     def initialize(version_string)
       version_string = sanitize_version_string(version_string)
-      self.major = nil
-      self.minor = nil
-      self.patch_level = nil
+      self.major        = nil
+      self.minor        = nil
+      self.patch_level  = nil
       self.build_number = nil
 
-      pieces = version_string.split('.')
+      pieces       = version_string.split('.')
       pieces_count = pieces.count
 
-      self.major = pieces[0] if pieces_count >= 1
-      self.minor = pieces[1] if pieces_count >= 2
-      self.patch_level = pieces[2] if pieces_count >= 3
+      self.major        = pieces[0] if pieces_count >= 1
+      self.minor        = pieces[1] if pieces_count >= 2
+      self.patch_level  = pieces[2] if pieces_count >= 3
       self.build_number = pieces[3] if pieces_count >= 4
     end
 
     # @return [String]
     def to_s
-      [self.major, self.minor, self.patch_level, self.build_number].compact.join('.')
+      [major, minor, patch_level, build_number].compact.join('.')
     end
 
     private

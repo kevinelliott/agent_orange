@@ -48,31 +48,26 @@ module AgentOrange
         end
       end
 
-      self.analysis
+      analysis
 
-      self.platform = AgentOrange::Platform.new(user_agent)
+      self.platform         = AgentOrange::Platform.new(user_agent)
       self.operating_system = AgentOrange::OperatingSystem.new(user_agent)
-      self.engine = AgentOrange::Engine.new(user_agent)
+      self.engine           = AgentOrange::Engine.new(user_agent)
     end
 
+    # @return [Device]
     def populate(content={})
-      self.debug_raw_content(content)
+      debug_raw_content(content)
       AgentOrange.debug "", 2
 
-      self.type = self.determine_type(DEVICES, content[:comment])
-      self.bot = self.determine_type(BOTS, content[:comment]) == :bot
-      if (self.bot && self.type == "other")
+      self.type = determine_type(DEVICES, content[:comment])
+      self.bot  = determine_type(BOTS, content[:comment]) == :bot
+      if (bot && type == "other")
         self.type = :bot # backwards compatability
       end
-      self.name = self.type.to_s.capitalize
+      self.name = type.to_s.capitalize
       self.version = nil
       self
-    end
-
-    def analysis
-      AgentOrange.debug "DEVICE ANALYSIS", 2
-      self.debug_content(:type => self.type, :name => self.name, :version => self.version)
-      AgentOrange.debug "", 2
     end
 
     # @return [Boolean]
@@ -80,26 +75,26 @@ module AgentOrange
       if name
         case name
         when String
-          return self.platform.name.downcase.include?(name.downcase)
+          return platform.name.downcase.include?(name.downcase)
         when Symbol
-          return self.platform.name.downcase.include?(name.to_s.downcase)
+          return platform.name.downcase.include?(name.to_s.downcase)
         end
       else
-        (self.type == :computer)
+        (type == :computer)
       end
     end
 
     # @return [Boolean]
     def is_mobile?(name=nil)
-      if !name.nil? && !self.platform.name.nil?
+      if !name.nil? && !platform.name.nil?
         case name
         when String
-          return self.platform.name.downcase.include?(name.downcase) || self.platform.version.downcase.include?(name.downcase)
+          return platform.name.downcase.include?(name.downcase) || platform.version.downcase.include?(name.downcase)
         when Symbol
-          return self.platform.name.downcase.include?(name.to_s.downcase) || self.platform.version.to_s.downcase.include?(name.to_s.downcase)
+          return platform.name.downcase.include?(name.to_s.downcase) || platform.version.to_s.downcase.include?(name.to_s.downcase)
         end
       else
-        (self.type == :mobile)
+        (type == :mobile)
       end
     end
 
@@ -108,18 +103,18 @@ module AgentOrange
       if name
         case name
         when String
-          return self.name.downcase.include?(name.downcase)
+          return name.downcase.include?(name.downcase)
         when Symbol
-          return self.name.downcase.include?(name.to_s.downcase)
+          return name.downcase.include?(name.to_s.downcase)
         end
       else
-        self.bot
+        bot
       end
     end
 
     # @return [String]
     def to_s
-      [self.name, self.version].compact.join(' ')
+      [name, version].compact.join(' ')
     end
   end
 end

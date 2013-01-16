@@ -46,32 +46,27 @@ module AgentOrange
             end
           end
 
-          self.populate(chosen_content)
+          populate(chosen_content)
         end
       end
 
-      self.analysis
+      analysis
     end
 
+    # @return [OperatingSystem]
     def populate(content={})
-      self.debug_raw_content(content)
+      debug_raw_content(content)
       AgentOrange.debug "", 2
 
-      self.type = self.determine_type(OPERATING_SYSTEMS, content[:name])
-      self.name = OPERATING_SYSTEM_NAMES[self.type.to_sym]
+      self.type = determine_type(OPERATING_SYSTEMS, content[:name])
+      self.name = OPERATING_SYSTEM_NAMES[type.to_sym]
       self.version = AgentOrange::Version.new(content[:version])
       self
     end
 
-    def analysis
-      AgentOrange.debug "OPERATING SYSTEM ANALYSIS", 2
-      self.debug_content(:type => self.type, :name => self.name, :version => self.version)
-      AgentOrange.debug "", 2
-    end
-
     # @return [String]
     def to_s
-      [self.name, self.version].compact.join(' ')
+      [name, version].compact.join(' ')
     end
   end
 end

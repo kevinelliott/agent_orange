@@ -15,51 +15,52 @@ module AgentOrange
 
     # @param [String] user_agent_string
     def initialize(user_agent_string)
-      self.parse(user_agent_string)
+      parse(user_agent_string)
     end
 
     def parse(user_agent)
       self.user_agent_string = user_agent
-      self.device = AgentOrange::Device.new(self.user_agent_string)
+      self.device = AgentOrange::Device.new(user_agent_string)
 
-      AgentOrange.debug "Device   = #{self.device}"
-      AgentOrange.debug "Platform = #{self.device.platform}"
-      AgentOrange.debug "OS       = #{self.device.operating_system}"
-      AgentOrange.debug "Engine   = #{self.device.engine}"
-      AgentOrange.debug "Browser  = #{self.device.engine.browser}"
+      AgentOrange.debug "Device   = #{device}"
+      AgentOrange.debug "Platform = #{device.platform}"
+      AgentOrange.debug "OS       = #{device.operating_system}"
+      AgentOrange.debug "Engine   = #{device.engine}"
+      AgentOrange.debug "Browser  = #{device.engine.browser}"
 
-      self.summary
+      summary
     end
 
     # @return [Boolean]
     def is_computer?(type=nil)
-      self.device.is_computer?(type)
+      device.is_computer?(type)
     end
 
     # @return [Boolean]
     def is_mobile?(type=nil)
-      self.device.is_mobile?(type)
+      device.is_mobile?(type)
     end
 
     # @return [Boolean]
     def is_bot?(type=nil)
-      self.device.is_bot?(type)
+      device.is_bot?(type)
     end
 
     # @return [String]
     def to_s
-      [self.device,
-        self.device.platform,
-        self.device.operating_system,
-        self.device.engine,
-        self.device.engine.browser
-        ].compact.join(", ")
+      [
+        device,
+        device.platform,
+        device.operating_system,
+        device.engine,
+        device.engine.browser
+      ].compact.join(", ")
     end
 
     # @return [String]
     def to_human_string
-      if self.device && self.device.engine && self.device.engine.browser
-        "User has a #{self.device} running #{self.device.engine.browser} (which is based on #{self.device.engine})."
+      if device && device.engine && device.engine.browser
+        "User has a #{device} running #{device.engine.browser} (which is based on #{device.engine})."
       else
         "User has some kind of device that I've never seen."
       end
@@ -68,19 +69,19 @@ module AgentOrange
     def summary
       AgentOrange.debug
       AgentOrange.debug "SUMMARY"
-      AgentOrange.debug "  Is computer? #{self.is_computer?}"
-      if self.is_computer?
-        AgentOrange.debug "    Is a Mac? #{self.is_computer? :mac}"
-        AgentOrange.debug "    Is a PC? #{self.is_computer? :pc}"
+      AgentOrange.debug "  Is computer? #{is_computer?}"
+      if is_computer?
+        AgentOrange.debug "    Is a Mac? #{is_computer? :mac}"
+        AgentOrange.debug "    Is a PC? #{is_computer? :pc}"
       end
-      AgentOrange.debug "  Is mobile? #{self.is_mobile?}"
-      if self.is_mobile?
-        AgentOrange.debug "    Is an iPhone? #{self.is_mobile? :iphone}"
-        AgentOrange.debug "    Is an iPad? #{self.is_mobile? :ipad}"
-        AgentOrange.debug "    Is an iPod? #{self.is_mobile? :ipod}"
-        AgentOrange.debug "    Is an Android? #{self.is_mobile? :android}"
+      AgentOrange.debug "  Is mobile? #{is_mobile?}"
+      if is_mobile?
+        AgentOrange.debug "    Is an iPhone? #{is_mobile? :iphone}"
+        AgentOrange.debug "    Is an iPad? #{is_mobile? :ipad}"
+        AgentOrange.debug "    Is an iPod? #{is_mobile? :ipod}"
+        AgentOrange.debug "    Is an Android? #{is_mobile? :android}"
       end
-      AgentOrange.debug "  Is bot? #{self.is_bot?}"
+      AgentOrange.debug "  Is bot? #{is_bot?}"
       AgentOrange.debug
     end
   end
