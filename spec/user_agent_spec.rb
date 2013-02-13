@@ -96,6 +96,46 @@ describe AgentOrange::UserAgent do
       ua.device.engine.browser.version.to_s.should == "13.0.782.218"
     end
   end
+
+  describe "iPhone" do
+    detect "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0 like Mac OS X; en-us) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A293 Safari/6531.22.7" do |ua|
+      ua.device.type.should == :mobile
+      ua.device.name.should == "Mobile"
+      ua.device.version.should == nil
+      ua.device.bot.should == false
+      ua.is_mobile?.should == true
+      ua.is_mobile?(:iphone).should == true
+      ua.is_computer?.should == false
+      ua.is_bot?.should == false
+
+      ua.device.platform.type.should == :apple
+      ua.device.platform.name.should == 'Apple'
+      ua.device.platform.version.major.should == 'iPhone'
+
+      ua.device.engine.browser.name.should == "Safari"
+      ua.device.engine.browser.version.to_s.should == "6531.22.7"
+    end
+  end
+
+  describe "iPad" do
+    detect "Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10" do |ua|
+      ua.device.type.should == :mobile
+      ua.device.name.should == "Mobile"
+      ua.device.version.should == nil
+      ua.device.bot.should == false
+      ua.is_mobile?.should == true
+      ua.is_mobile?(:ipad).should == true
+      ua.is_computer?.should == false
+      ua.is_bot?.should == false
+
+      ua.device.platform.type.should == :apple
+      ua.device.platform.name.should == 'Apple'
+      ua.device.platform.version.major.should == 'iPad'
+
+      ua.device.engine.browser.name.should == "Safari"
+      ua.device.engine.browser.version.to_s.should == "531.21.10"
+    end
+  end
   
   describe "Google User Agents" do
     detect "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_1 like Mac OS X; en-us) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8B117 Safari/6531.22.7 (compatible; Googlebot-Mobile/2.1; +http://www.google.com/bot.html)" do |ua|
