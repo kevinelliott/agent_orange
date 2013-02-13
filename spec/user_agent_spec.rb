@@ -101,7 +101,7 @@ describe AgentOrange::UserAgent do
     detect "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0 like Mac OS X; en-us) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A293 Safari/6531.22.7" do |ua|
       ua.device.type.should == :mobile
       ua.device.name.should == "Mobile"
-      # ua.device.version.should == nil
+      ua.device.version.should == nil
       ua.device.bot.should == false
       ua.is_mobile?.should == true
       ua.is_mobile?(:iphone).should == true
@@ -121,7 +121,7 @@ describe AgentOrange::UserAgent do
     detect "Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10" do |ua|
       ua.device.type.should == :mobile
       ua.device.name.should == "Mobile"
-      # ua.device.version.should == nil
+      ua.device.version.should == nil
       ua.device.bot.should == false
       ua.is_mobile?.should == true
       ua.is_mobile?(:ipad).should == true
