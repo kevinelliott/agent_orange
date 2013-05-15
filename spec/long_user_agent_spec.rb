@@ -1,11 +1,20 @@
 require File.dirname(__FILE__) + '/spec_helper'
 require 'net/http'
-require 'iconv'
+
+if RUBY_VERSION < "1.9.3"
+  require 'iconv'
+end
 
 describe AgentOrange::UserAgent do
   describe 'checking with real browsers list' do
-    before  do
-      @lists = [Iconv.new('UTF-8//IGNORE', 'UTF-8').iconv( File.open("spec/fixtures/browser_ids.htm").read)]
+    before do
+      fixture_file = "spec/fixtures/browser_ids.htm"
+
+      if RUBY_VERSION < "1.9.3"
+        @lists = [Iconv.new('UTF-8//IGNORE', 'UTF-8').iconv(File.open(fixture_file).read)]
+      else
+        @lists = [File.open(fixture_file, 'r:ASCII-8BIT').read]
+      end
 
       begin
         @lists.push Net::HTTP.get('www.zytrax.com', '/tech/web/browser_ids.htm')
