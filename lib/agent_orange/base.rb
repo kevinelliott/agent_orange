@@ -1,17 +1,17 @@
 module AgentOrange
   class Base
-    
+
     def initialize(user_agent)
       parse(user_agent)
     end
-    
+
     def parse(user_agent)
       raise 'Any class that extends AgentOrange::Base must implement parse(user_agent)'
     end
 
     # @return [Array]
     def parse_user_agent_string_into_groups(user_agent)
-      results = user_agent.scan(/([^\/[:space:]]*)(\/([^[:space:]]*))?([[:space:]]*\[[a-zA-Z][a-zA-Z]\])?[[:space:]]*(\((([^()]|(\([^()]*\)))*)\))?[[:space:]]*/i)
+      results = user_agent.scan(/([^\/[:space:]]*)(\/([^[:space:]]*))?([[:space:]]*\[[a-zA-Z][a-zA-Z]\])?[[:space:]]*(\((([^()]|(\([^()]*\)))*)(?:\)|$))?[[:space:]]*/i)
       groups = []
       results.each do |result|
         if result[0] != "" # Add the group of content if name isn't blank
@@ -20,16 +20,16 @@ module AgentOrange
       end
       groups
     end
-    
+
     # @return [Array]
     def parse_comment(comment)
       groups = []
       comment.split('; ').each do |piece|
         content = { :name => nil, :version => nil }
-        
+
         # Remove 'like Mac OS X' or similar since it distracts from real results
         piece = piece.scan(/(.+) like .+$/i)[0][0] if piece =~ /(.+) like (.+)$/i
-        
+
         if piece =~ /(.+)[ \/]([\w.]+)$/i
           chopped = piece.scan(/(.+)[ \/]([\w.]+)$/i)[0]
           groups << { :name => chopped[0], :version => chopped[1] }
@@ -48,19 +48,19 @@ module AgentOrange
       type = "other" if type.nil?
       type
     end
-    
+
     def debug_raw_content(content)
       AgentOrange.debug "  Raw Name   : #{content[:name]}", 2
       AgentOrange.debug "  Raw Version: #{content[:version]}", 2
       AgentOrange.debug "  Raw Comment: #{content[:comment]}", 2
     end
-    
+
     def debug_content(content)
       AgentOrange.debug "  Type: #{self.type}", 2
       AgentOrange.debug "  Name: #{self.name}", 2
       AgentOrange.debug "  Version: #{self.version}", 2
     end
-    
+
     def analysis
       AgentOrange.debug self.class.name.upcase + ' ANALYSIS', 2
       debug_content(:type => type, :name => name, :version => version)

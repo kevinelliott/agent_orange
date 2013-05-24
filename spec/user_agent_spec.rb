@@ -1,6 +1,5 @@
-require File.dirname(__FILE__) + '/spec_helper'
+require 'spec_helper'
 require 'net/http'
-require 'iconv'
 
 describe AgentOrange::UserAgent do
 
@@ -96,7 +95,7 @@ describe AgentOrange::UserAgent do
       ua.device.engine.browser.version.to_s.should == "13.0.782.218"
     end
   end
-  
+
   describe "Google User Agents" do
     detect "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_1 like Mac OS X; en-us) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8B117 Safari/6531.22.7 (compatible; Googlebot-Mobile/2.1; +http://www.google.com/bot.html)" do |ua|
       ua.device.type.should == :mobile
@@ -108,9 +107,9 @@ describe AgentOrange::UserAgent do
       ua.is_bot?.should == true
 
       ua.device.engine.browser.name.should == "Safari"
-      ua.device.engine.browser.version.to_s.should == "6531.22.7"    
+      ua.device.engine.browser.version.to_s.should == "6531.22.7"
     end
-    
+
     detect "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)" do |ua|
       ua.device.type.should == :bot
       ua.device.name.should == "Bot"
@@ -123,6 +122,6 @@ describe AgentOrange::UserAgent do
       ua.device.engine.browser.name.should == nil
       ua.device.engine.browser.version.to_s.should == ""
     end
-    
+
   end
 end
