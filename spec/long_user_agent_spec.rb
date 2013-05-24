@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/spec_helper'
+require 'spec_helper'
 require 'net/http'
 
 if RUBY_VERSION < "1.9.3"
