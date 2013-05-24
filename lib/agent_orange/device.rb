@@ -33,8 +33,10 @@ module AgentOrange
     }
 
     BOTS = {
-      :bot => 'alexa|bot|crawl(er|ing)|facebookexternalhit|feedburner|google web preview|nagios|postrank|pingdom|slurp|spider|yahoo!|yandex'
+      :bot => 'alexa|bot|crawl(er|ing)|facebookexternalhit|feedburner|google web preview|nagios|postrank|pingdom|slurp|spider|yahoo!|yandex|360spider'
     }
+
+    BOTS_BY_NAME = /googlebot|360spider|bot$/i
 
     def parse(user_agent)
       AgentOrange.debug "DEVICE PARSING", 2
@@ -45,6 +47,9 @@ module AgentOrange
         if content[:comment] =~ /(#{devices_and_bots.collect{|cat,regex| regex}.join(')|(')})/i
           # Matched group against name
           self.populate(content)
+        elsif content[:name] =~ BOTS_BY_NAME
+          self.bot  = true
+          self.type = :bot
         end
       end
 
@@ -61,7 +66,7 @@ module AgentOrange
       AgentOrange.debug "", 2
 
       self.type = determine_type(DEVICES, content[:comment])
-      self.bot  = determine_type(BOTS, content[:comment]) == :bot
+      self.bot  ||= determine_type(BOTS, content[:comment]) == :bot
       if (bot && type == "other")
         self.type = :bot # backwards compatability
       end
