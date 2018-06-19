@@ -1,3 +1,3 @@
-To support my open-source work, consider [supporting me on Patreon](https://www.patreon.com/kevinelliott).
+To support my open-source work, consider [adding me on Patreon](https://www.patreon.com/kevinelliott).
 
 # agent_orange
