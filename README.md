@@ -1,2 +1,3 @@
+To support my open-source work, consider [supporting me on Patreon](https://www.patreon.com/kevinelliott).
+
 # agent_orange
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/kevinelliott/agent_orange?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
